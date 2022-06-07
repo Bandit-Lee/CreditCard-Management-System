@@ -49,6 +49,10 @@ public class MemberEntity implements Serializable {
 	 */
 	private String memberTel;
 	/**
+	 * 会员用户名
+	 */
+	private String memberUsername;
+	/**
 	 * 会员密码
 	 */
 	private String memberPassword;

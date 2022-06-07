@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author Bandit
  * @createTime 2022/6/6 15:08
@@ -16,7 +18,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditCardEntity {
+public class CreditCardEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "CARD_ID", type = IdType.AUTO)
     private Integer cardId;
