@@ -1,11 +1,10 @@
 package com.sys.credit.controller;
 
 import com.common.entity.ResultVO;
-import com.sys.credit.entity.CreditCard;
+import com.sys.credit.entity.CreditCardEntity;
 import com.sys.credit.service.impl.CreditCardServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ public class CreditCardController {
 
     @GetMapping("/card")
     public String creditCard(ModelMap modelMap) {
-        List<CreditCard> list = creditCardService.queryList(null);
+        List<CreditCardEntity> list = creditCardService.queryList(null);
         modelMap.put("creditCardList", list);
         return PREFIX + "/card";
     }
@@ -40,8 +39,8 @@ public class CreditCardController {
 
     @GetMapping("/edit/{cardId}")
     public String edit(@PathVariable Integer cardId, ModelMap modelMap) {
-        CreditCard creditCard = creditCardService.getById(cardId);
-        modelMap.put("creditCard", creditCard);
+        CreditCardEntity creditCardEntity = creditCardService.getById(cardId);
+        modelMap.put("creditCard", creditCardEntity);
         return PREFIX + "/edit";
     }
 
@@ -51,8 +50,8 @@ public class CreditCardController {
     @RequestMapping("/list")
     @ResponseBody
     public ResultVO list(@RequestParam Map<String, Object> params){
-        List<CreditCard> creditCardList = creditCardService.queryList(params);
-        return ResultVO.success().put("list", creditCardList);
+        List<CreditCardEntity> creditCardEntityList = creditCardService.queryList(params);
+        return ResultVO.success().put("list", creditCardEntityList);
     }
 
 
@@ -61,8 +60,8 @@ public class CreditCardController {
      */
     @RequestMapping("/info/{creditCard}")
     public ResultVO info(@PathVariable("creditCard") Long cardId){
-        CreditCard creditCard = creditCardService.getById(cardId);
-        return ResultVO.success().put("creditCard", creditCard);
+        CreditCardEntity creditCardEntity = creditCardService.getById(cardId);
+        return ResultVO.success().put("creditCardEntity", creditCardEntity);
     }
 
     /**
@@ -70,8 +69,8 @@ public class CreditCardController {
      */
     @RequestMapping("/save")
     @ResponseBody
-    public ResultVO save(@RequestBody CreditCard creditCard){
-        creditCardService.save(creditCard);
+    public ResultVO save(@RequestBody CreditCardEntity creditCardEntity){
+        creditCardService.save(creditCardEntity);
         return ResultVO.success();
     }
 
@@ -80,8 +79,8 @@ public class CreditCardController {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public ResultVO update(@RequestBody CreditCard creditCard){
-        creditCardService.updateById(creditCard);
+    public ResultVO update(@RequestBody CreditCardEntity creditCardEntity){
+        creditCardService.updateById(creditCardEntity);
         return ResultVO.success();
     }
 

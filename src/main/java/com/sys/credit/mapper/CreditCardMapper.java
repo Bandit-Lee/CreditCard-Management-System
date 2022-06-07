@@ -1,7 +1,7 @@
 package com.sys.credit.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.sys.credit.entity.CreditCard;
+import com.sys.credit.entity.CreditCardEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @createTime 2022/6/6 15:26
  */
 @Mapper
-public interface CreditCardMapper extends BaseMapper<CreditCard> {
+public interface CreditCardMapper extends BaseMapper<CreditCardEntity> {
 }
