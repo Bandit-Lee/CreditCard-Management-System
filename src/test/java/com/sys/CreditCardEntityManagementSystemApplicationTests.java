@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest
-class CreditCardManagementSystemApplicationTests {
+class CreditCardEntityManagementSystemApplicationTests {
 
     @Test
     void test() {

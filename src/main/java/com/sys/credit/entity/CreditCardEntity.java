@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * @author Bandit
@@ -17,8 +16,7 @@ import lombok.ToString;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class CreditCard {
+public class CreditCardEntity {
 
     @TableId(value = "CARD_ID", type = IdType.AUTO)
     private Integer cardId;

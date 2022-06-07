@@ -18,7 +18,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CreditType {
+public class CreditTypeEntity {
 
     @TableId(value = "TYPE_ID",type = IdType.AUTO)
     private Integer typeId;
