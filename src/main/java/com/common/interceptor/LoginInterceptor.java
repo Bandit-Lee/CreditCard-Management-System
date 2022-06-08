@@ -1,5 +1,6 @@
 package com.common.interceptor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
  * @createTime 2022/6/7 15:23
  */
 @Component
+@Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
@@ -24,8 +26,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (user != null) {
             return true;
         } else {
+            log.warn("session中没有用户");
             request.setAttribute("msg", "请先登录!");
-            request.getRequestDispatcher("/login").forward(request,response);
+            response.sendRedirect("/login");
             return false;
         }
     }

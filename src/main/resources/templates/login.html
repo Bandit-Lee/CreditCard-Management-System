@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,19 +10,41 @@
 <body>
 <div th:replace="~{common/header::nav}"></div>
 <div class="container mt-3">
-    <form th:action="@{/loginConfirm}" method="post">
+    <form th:action="@{/loginConfirm}" method="post" id="login-form">
         <div class="form-group">
-            <label for="username">Email address</label>
+            <label for="username">用户名</label>
             <input type="text" class="form-control" name="username" id="username" aria-describedby="emailHelp">
         </div>
         <div class="form-group">
-            <label for="password">Password</label>
+            <label for="password">密码</label>
             <input type="password" class="form-control" name="password" id="password">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
+        <a class="btn btn-info" th:href="@{/register}" style="width: 200px">还没有账号？注册</a>
     </form>
+
 </div>
 
-<div th:replace="~{common/header::scrpit}"></div>
+<th:block th:replace="~{common/header::scrpit}"></th:block>
+<script th:inline="javascript">
+    function submitHandler() {
+        let data = $('#login-form').serializeArray()
+        console.log(data)
+        $.ajax({
+            url: "/loginConfirm",
+            dataType: 'json',
+            data: {
+                username: data[0].value,
+                password: data[1].value
+            },
+            success: (data)=>{
+                console.log(data)
+            },
+            error: (data)=>{
+                console.log(data)
+            }
+        })
+    }
+</script>
 </body>
 </html>

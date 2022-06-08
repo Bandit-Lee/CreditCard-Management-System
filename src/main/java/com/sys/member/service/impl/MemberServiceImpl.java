@@ -31,6 +31,23 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
                 .eq(MemberEntity::getMemberUsername, username));
         return memberEntity != null && password.equals(memberEntity.getMemberPassword()) ?
                 memberEntity : null;
+    }
 
+    /**
+     * 不为空才save，否则报错
+     * @param memberEntity
+     * @return
+     */
+    @Override
+    public boolean saveRegister(MemberEntity memberEntity) {
+        MemberMapper memberMapper = this.getBaseMapper();
+        MemberEntity member = memberMapper.selectOne(new LambdaQueryWrapper<MemberEntity>()
+                .eq(MemberEntity::getMemberUsername, memberEntity.getMemberUsername()));
+        if (member!=null) {
+            return false;
+        } else {
+            this.save(memberEntity);
+            return true;
+        }
     }
 }

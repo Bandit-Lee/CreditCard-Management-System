@@ -11,4 +11,6 @@ public interface MemberService extends IService<MemberEntity> {
 
     MemberEntity LoginVerification(String username, String password);
 
+    boolean saveRegister(MemberEntity memberEntity);
+
 }
