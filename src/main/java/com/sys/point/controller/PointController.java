@@ -1,9 +1,7 @@
 package com.sys.point.controller;
 
 import com.common.entity.ResultVO;
-import com.sys.credit.entity.CreditCardEntity;
 import com.sys.point.entity.PointEntity;
-import com.sys.point.service.PointService;
 import com.sys.point.service.impl.PointServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,7 +53,7 @@ public class PointController {
     @RequestMapping("/info/{point}")
     public ResultVO info(@PathVariable("point") Long pointID){
         PointEntity pointEntity = pointService.getById(pointID);
-        return ResultVO.success().put("creditCardEntity", pointEntity);
+        return ResultVO.success().put("PointEntity", pointEntity);
     }
 
     /**
