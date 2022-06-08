@@ -9,11 +9,10 @@
 <div th:replace="~{common/header::nav}"></div>
 <div class="container mt-3">
     <div>
-        <a class="btn btn-primary" onclick="window.location.href='/credit/list' ">查看名下所有卡</a>
+        <a class="btn btn-primary" onclick="window.location.href='/credit/toList' ">查看名下所有卡</a>
 
         <a class="btn btn-primary">申请卡</a>
     </div>
-    <p th:each="creditCardEntity:${creditCardEntityList}" th:text="${creditCardEntity.getCardDescribe()}"></p>
 </div>
 <div th:replace="~{common/header::scrpit}"></div>
 </body>

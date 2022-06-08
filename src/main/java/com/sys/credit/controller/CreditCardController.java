@@ -5,11 +5,12 @@ import com.sys.credit.entity.CreditCardEntity;
 import com.sys.credit.service.impl.CreditCardServiceImpl;
 import com.sys.member.entity.MemberEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +51,7 @@ public class CreditCardController {
     /**
      * 列表
      */
-    @RequestMapping("/queryList")
+    @RequestMapping("/list")
     @ResponseBody
     public ResultVO list(@RequestParam Map<String, Object> params){
         List<CreditCardEntity> creditCardEntityList = creditCardService.queryList(params);
@@ -63,7 +64,7 @@ public class CreditCardController {
      * @param model
      * @return
      */
-    @RequestMapping("/list")
+    @RequestMapping("/toList")
     public String toList(HttpSession session, Model model){
         MemberEntity member = (MemberEntity) session.getAttribute("user");
         List<CreditCardEntity> creditCardEntityList = creditCardService.queryListWithMember(member);
