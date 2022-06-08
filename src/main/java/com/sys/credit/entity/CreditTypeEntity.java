@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * @author Bandit
  * @createTime 2022/6/6 17:52
@@ -18,7 +20,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CreditTypeEntity {
+public class CreditTypeEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "TYPE_ID",type = IdType.AUTO)
     private Integer typeId;

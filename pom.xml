@@ -105,7 +105,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.4.1</version>
                 <configuration>
-                    <mainClass>com.sys.CreditCardManagementSystemApplication</mainClass>
+                    <mainClass>com.CreditCardManagementSystemApplication</mainClass>
                     <fork>true</fork>
                     <addResources>true</addResources>
                 </configuration>
