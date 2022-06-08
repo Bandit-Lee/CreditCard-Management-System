@@ -52,8 +52,8 @@ public class IndexController {
         MemberEntity memberEntity = memberService.LoginVerification(username, password);
         if (memberEntity != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("user", memberEntity.getMemberUsername());
-            log.info("session存入用户:[{}]", memberEntity.getMemberUsername());
+            session.setAttribute("user", memberEntity);
+            log.info("session存入用户:[{}]", memberEntity);
             return "redirect:index";
         }
         log.info("用户名或密码错误");

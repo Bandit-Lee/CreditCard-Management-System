@@ -9,6 +9,7 @@ import com.sys.member.entity.MemberEntity;
 import com.sys.member.mapper.MemberMapper;
 import com.sys.member.service.MemberService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, MemberEntity> i
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveRegister(MemberEntity memberEntity) {
         MemberMapper memberMapper = this.getBaseMapper();
         MemberEntity member = memberMapper.selectOne(new LambdaQueryWrapper<MemberEntity>()

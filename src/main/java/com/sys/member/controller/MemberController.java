@@ -60,6 +60,7 @@ public class MemberController {
      * 查找
      */
     @RequestMapping("/info/{member}")
+    @ResponseBody
     public ResultVO info(@PathVariable("member") Long MemberID){
         MemberEntity memberEntity = memberService.getById(MemberID);
         return ResultVO.success().put("memberEntity", memberEntity);

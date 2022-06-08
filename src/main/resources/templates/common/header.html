@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Title</title>
   <link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
+  <link th:href="@{/layui/css/layui.css}" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="nav">
@@ -21,7 +22,7 @@
       <li class="nav-item"> <a class="nav-link" href="#">个人资料管理</a> </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:if="${session.user==null}">未登录</a>
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:text="${session.user}" th:if="${session.user!=null}">已登录</a>
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" th:text="${session.user.getMemberName()}" th:if="${session.user!=null}">已登录</a>
         <div class="dropdown-menu">
           <a class="dropdown-item" th:href="@{/login}" th:if="${session.user==null}">登录</a>
           <a class="dropdown-item" th:href="@{/logout}" th:if="${session.user!=null}">注销</a>
@@ -37,6 +38,7 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script th:src="@{/js/popper.min.js}"></script>
   <script th:src="@{/js/bootstrap-4.0.0.js}"></script>
+  <script th:src="@{/layui/layui.js}"></script>
 </div>
 </body>
 </html>

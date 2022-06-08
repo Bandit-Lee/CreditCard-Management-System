@@ -10,7 +10,7 @@
 <body>
 <div th:replace="~{common/header::nav}"></div>
 <div class="container mt-3">
-    <form th:action="@{/loginConfirm}" method="post" id="login-form">
+    <form th:action="@{/loginConfirm}" method="post" id="login-form" autocomplete="off">
         <div class="form-group">
             <label for="username">用户名</label>
             <input type="text" class="form-control" name="username" id="username" aria-describedby="emailHelp">
