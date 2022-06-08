@@ -3,7 +3,7 @@ package com.sys.member.controller;
 import com.common.entity.ResultVO;
 import com.sys.member.entity.MemberEntity;
 import com.sys.member.service.impl.MemberServiceImpl;
-import com.sys.point.entity.PointEntity;
+import com.sys.member.entity.MemberEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
