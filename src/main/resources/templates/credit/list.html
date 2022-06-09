@@ -25,14 +25,22 @@
         </thead>
         <tbody>
         <tr th:each="card : ${creditCardList}">
-            <td th:text="${card.cardId}"></td>
-            <td th:text="${card.cardDescribe}"></td>
-            <td th:text="${card.cardTypeName}" th:value="${card.cardType}"></td>
-            <td><img th:src="${card.cardImageURL}" alt=""></td>
-            <td>
-                <button class="btn-sm btn-outline-primary" th:onclick="modifyHandler([[${card.cardId}]])">修改卡信息</button>
-                <button class="btn-sm btn-outline-success" th:onclick="upgradeHandler([[${card.cardId}]])">升级</button>
-                <button class="btn-sm btn-outline-danger" th:onclick="deleteHandler([[${card.cardId}]])">注销</button>
+            <td class="text-center">
+                <div th:text="${card.cardId}"></div>
+            </td>
+            <td class="text-center">
+                <div th:text="${card.cardDescribe}"></div>
+            </td>
+            <td class="text-center">
+                <div th:text="${card.cardTypeName}" th:value="${card.cardType}"></div>
+            </td>
+            <td class="text-center">
+                <img th:src="${card.cardImageURL}" alt="">
+            </td>
+            <td class="text-center">
+                <button class="btn btn-outline-primary" th:onclick="modifyHandler([[${card.cardId}]])">修改卡信息</button>
+                <button class="btn btn-outline-success" th:onclick="upgradeHandler([[${card.cardId}]])">升级</button>
+                <button class="btn btn-outline-danger" th:onclick="deleteHandler([[${card.cardId}]])">注销</button>
             </td>
         </tr>
         </tbody>

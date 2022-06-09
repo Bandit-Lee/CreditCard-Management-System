@@ -2,13 +2,16 @@ package com.sys.member.controller;
 
 
 import com.common.entity.ResultVO;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.sys.member.entity.MemberEntity;
 import com.sys.member.service.impl.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +28,32 @@ public class MemberController {
     @RequestMapping("/add")
     public String add() {
         return PREFIX + "/add";
+    }
+
+    /**
+     * 去修改页面
+     * @param session
+     * @param model
+     * @return
+     */
+    @GetMapping("/edit")
+    public String edit(HttpSession session, Model model) {
+        MemberEntity member = (MemberEntity) session.getAttribute("user");
+        model.addAttribute("member",member);
+        return PREFIX + "/edit";
+    }
+
+
+    /**
+     * 去查找页面
+     * @param session
+     * @param model
+     */
+    @GetMapping("/info")
+    public String info(HttpSession session, Model model){
+        MemberEntity member = (MemberEntity) session.getAttribute("user");
+        model.addAttribute("member",member);
+        return PREFIX + "/info";
     }
 
     /**
@@ -56,15 +85,6 @@ public class MemberController {
     }
 
 
-    /**
-     * 查找
-     */
-    @RequestMapping("/info/{member}")
-    @ResponseBody
-    public ResultVO info(@PathVariable("member") Long MemberID){
-        MemberEntity memberEntity = memberService.getById(MemberID);
-        return ResultVO.success().put("memberEntity", memberEntity);
-    }
 
     /**
      * 列表

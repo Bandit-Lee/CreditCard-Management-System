@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>成员信息查询</title>
+    <!-- Bootstrap -->
+    <link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
+    <style>
+        .container > div {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{common/header::nav}"></div>
+<div class="container mt-3">
+    <div class="input-group flex-nowrap">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="memberName">
+                <strong>昵称</strong>
+            </span>
+        </div>
+        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberName}" aria-label="memberName" aria-describedby="memberName">
+    </div>
+    <div class="input-group flex-nowrap">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="memberAddress">
+                <strong>住址</strong>
+            </span>
+        </div>
+        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberAddress}" aria-label="memberAddress" aria-describedby="memberAddress">
+    </div>
+    <div class="input-group flex-nowrap">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="memberTel">
+                <strong>电话号码</strong>
+            </span>
+        </div>
+        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberTel}" aria-label="memberTel" aria-describedby="memberTel">
+    </div>
+    <div class="input-group flex-nowrap">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="memberUsername">
+                <strong>用户名</strong>
+            </span>
+        </div>
+        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberUsername}" aria-label="memberUsername" aria-describedby="memberUsername">
+    </div>
+    <div class="input-group flex-nowrap">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="memberPartner">
+                <strong>是否有配偶</strong>
+            </span>
+        </div>
+        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberPartner eq 1 ? '是' : '否'}" aria-label="memberPartner" aria-describedby="memberPartner">
+    </div>
+</div>
+
+<th:block th:replace="~{common/header::scrpit}"></th:block>
+</body>
+</html>

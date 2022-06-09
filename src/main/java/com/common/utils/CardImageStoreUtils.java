@@ -26,6 +26,7 @@ public class CardImageStoreUtils {
 
     public static final String ETC_CARD_COMMON = "ETC_COMMON";
     public static final String ETC_CARD_SILVER = "ETC_SILVER";
+    public static final String ETC_CARD_GOLD = "ETC_GOLD";
     public static final String OTHER_CARD = "OTHER_CARD";
 
     static {
@@ -43,6 +44,7 @@ public class CardImageStoreUtils {
 
         ImageStore.put(ETC_CARD_COMMON,"https://img.banditblog.top/web-project/etc.jpg");
         ImageStore.put(ETC_CARD_SILVER,"https://img.banditblog.top/web-project/etc_2.png");
+        ImageStore.put(ETC_CARD_GOLD,"https://img.banditblog.top/web-project/etc_2.png");
 
         ImageStore.put(OTHER_CARD,"https://img.banditblog.top/web-project/card-img.png");
     }

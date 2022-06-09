@@ -42,7 +42,7 @@
             <label><input type="radio" name="memberPartner" value="1">有</label>
             <label><input type="radio" name="memberPartner" value="0">无</label>
         </div>
-        <button type="button" class="btn btn-primary" onclick="submitHandler()">Submit</button>
+        <button type="button" class="btn btn-primary" onclick="submitHandler()">注册</button>
     </form>
 </div>
 
@@ -60,7 +60,8 @@
                 memberUsername: formData[1].value,
                 memberPassword: formData[2].value,
                 memberTel: formData[3].value,
-                memberAddress: formData[4].value
+                memberAddress: formData[4].value,
+                memberPartner: formData[5].value
             }),
             success: function (data) {
                 if (data.code === 200) {
