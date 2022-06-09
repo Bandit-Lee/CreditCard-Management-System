@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Bandit
@@ -21,5 +22,16 @@ public class CreditTypeServiceImpl extends ServiceImpl<CreditTypeMapper, CreditT
     public List<CreditTypeEntity> queryList(Map<String, Object> params) {
         LambdaQueryWrapper<CreditTypeEntity> wrapper = new QueryWrapper<CreditTypeEntity>().lambda();
         return this.list(wrapper);
+    }
+
+    /**
+     * 获取卡片的 TypeID 到 TypeName的映射
+     * @return
+     */
+    public Map<Integer, String> getCardTypeToNameMap() {
+        return this.baseMapper
+                .selectList(null)
+                .stream()
+                .collect(Collectors.toMap(CreditTypeEntity::getTypeId, CreditTypeEntity::getTypeName));
     }
 }

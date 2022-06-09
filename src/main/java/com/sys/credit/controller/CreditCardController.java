@@ -2,7 +2,9 @@ package com.sys.credit.controller;
 
 import com.common.entity.ResultVO;
 import com.sys.credit.entity.CreditCardEntity;
+import com.sys.credit.entity.CreditTypeEntity;
 import com.sys.credit.service.impl.CreditCardServiceImpl;
+import com.sys.credit.service.impl.CreditTypeServiceImpl;
 import com.sys.member.entity.MemberEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -29,6 +31,9 @@ public class CreditCardController {
     @Autowired
     CreditCardServiceImpl creditCardService;
 
+    @Autowired
+    CreditTypeServiceImpl creditTypeService;
+
     @GetMapping("/card")
     public String creditCard(ModelMap modelMap) {
         List<CreditCardEntity> list = creditCardService.queryList(null);
@@ -36,14 +41,16 @@ public class CreditCardController {
         return PREFIX + "/card";
     }
 
-    @GetMapping("/add")
-    public String add() {
+    @GetMapping("/toAdd")
+    public String add(Model model) {
+        List<CreditTypeEntity> typeEntityList = creditTypeService.queryList(null);
+        model.addAttribute("typeList", typeEntityList);
         return PREFIX + "/add";
     }
 
     @GetMapping("/edit/{cardId}")
     public String edit(@PathVariable Integer cardId, ModelMap modelMap) {
-        CreditCardEntity creditCardEntity = creditCardService.getById(cardId);
+        CreditCardEntity creditCardEntity = creditCardService.getCardById(cardId);
         modelMap.put("creditCard", creditCardEntity);
         return PREFIX + "/edit";
     }
@@ -90,6 +97,15 @@ public class CreditCardController {
     public ResultVO save(@RequestBody CreditCardEntity creditCardEntity){
         creditCardService.save(creditCardEntity);
         return ResultVO.success();
+    }
+
+    @RequestMapping("/toUpgrade/{cardId}")
+    public String toUpgrade(@PathVariable Integer cardId, Model model) {
+        CreditCardEntity creditCard = creditCardService.getCardById(cardId);
+        List<CreditTypeEntity> typeList = creditTypeService.list();
+        model.addAttribute("creditCard",creditCard);
+        model.addAttribute("typeList",typeList);
+        return PREFIX + "/upgrade";
     }
 
     /**

@@ -17,8 +17,9 @@
         <thead class="thead-dark">
         <tr>
             <th>信用卡ID</th>
-            <th>信用卡归属</th>
-            <th>信用卡基本</th>
+            <th>信用卡运营商</th>
+            <th>信用卡等级</th>
+            <th>信用卡图片</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -27,10 +28,11 @@
             <td th:text="${card.cardId}"></td>
             <td th:text="${card.cardDescribe}"></td>
             <td th:text="${card.cardTypeName}" th:value="${card.cardType}"></td>
+            <td><img th:src="${card.cardImageURL}" alt=""></td>
             <td>
-                <button class="btn-sm btn-outline-primary">修改卡信息</button>
-                <button class="btn-sm btn-outline-success">升级</button>
-                <button class="btn-sm btn-outline-danger">注销</button>
+                <button class="btn-sm btn-outline-primary" th:onclick="modifyHandler([[${card.cardId}]])">修改卡信息</button>
+                <button class="btn-sm btn-outline-success" th:onclick="upgradeHandler([[${card.cardId}]])">升级</button>
+                <button class="btn-sm btn-outline-danger" th:onclick="deleteHandler([[${card.cardId}]])">注销</button>
             </td>
         </tr>
         </tbody>
@@ -38,7 +40,34 @@
 </div>
 <th:block th:replace="~{common/header::scrpit}"></th:block>
 <script th:inline="javascript">
-
+function modifyHandler(cardId) {
+    window.location.href='/credit/edit/'+cardId
+}
+function upgradeHandler(cardId) {
+    window.location.href='/credit/toUpgrade/'+cardId
+}
+function deleteHandler(cardId) {
+    let cardIds = []
+    cardIds.push(Number.parseInt(cardId))
+    $.ajax({
+        method: "post",
+        url: "/credit/delete",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(cardIds),
+        success: function (data) {
+            if (data.code === 200) {
+                alert(data.msg)
+                window.location.href = "/credit/toList"
+            } else {
+                alert(data.msg)
+            }
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    });
+}
 </script>
 </body>
 </html>

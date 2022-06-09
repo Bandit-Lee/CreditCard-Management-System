@@ -8,9 +8,8 @@
     <link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
 </head>
 <body>
-
+<div th:replace="~{common/header::nav}"></div>
 <div class="container mt-3">
-    <div th:replace="~{common/header::nav}"></div>
     <form autocomplete="off" id="member-add" class="was-validated">
         <div class="form-group">
             <label for="memberName">姓名</label>
