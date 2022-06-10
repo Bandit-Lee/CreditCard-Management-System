@@ -23,7 +23,7 @@ public class PointEntity {
     /**
      * 积分数值
      */
-    private Integer pointNUM;
+    private Integer pointNum;
     /**
      * 积分状态
      */

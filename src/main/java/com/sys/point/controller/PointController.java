@@ -5,6 +5,7 @@ import com.sys.point.entity.PointEntity;
 import com.sys.point.service.impl.PointServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -60,10 +61,10 @@ public class PointController {
      * 列表
      */
     @RequestMapping("/list")
-    @ResponseBody
-    public ResultVO list(@RequestParam Map<String, Object> params){
-        List<PointEntity> PointEntityList = pointService.queryList(params);
-        return ResultVO.success().put("list", PointEntityList);
+    public String list(Model model){
+        List<PointEntity> PointEntityList = pointService.queryList(null);
+        model.addAttribute("pointlist",PointEntityList);
+        return PREFIX + "/list";
     }
 
 
