@@ -1,8 +1,11 @@
 package com.sys.member.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import com.common.entity.ResultVO;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.sys.member.entity.MemberEntity;
 import com.sys.member.service.impl.MemberServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -12,22 +15,39 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
+
+/**
+ *
+ *
+ * @author bandit
+ * @email ldslee@qq.com
+ * @date 2022-06-10 11:42:50
+ */
 @Controller
 @RequestMapping("/member")
 @Slf4j
 public class MemberController {
+
     private static final String PREFIX = "/member";
 
-    @Autowired
-    MemberServiceImpl memberService;
+    private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-    @RequestMapping("/add")
-    public String add() {
-        return PREFIX + "/add";
+    @Autowired
+    private MemberServiceImpl memberService;
+
+
+    /**
+     * 去查找页面
+     * @param session
+     * @param model
+     */
+    @GetMapping("/info")
+    public String info(HttpSession session, Model model){
+        MemberEntity member = (MemberEntity) session.getAttribute("user");
+        member.setBirthdayString(df.format(member.getMemberBirthday()));
+        model.addAttribute("member",member);
+        return PREFIX + "/info";
     }
 
     /**
@@ -39,21 +59,9 @@ public class MemberController {
     @GetMapping("/edit")
     public String edit(HttpSession session, Model model) {
         MemberEntity member = (MemberEntity) session.getAttribute("user");
+        member.setBirthdayString(df.format(member.getMemberBirthday()));
         model.addAttribute("member",member);
         return PREFIX + "/edit";
-    }
-
-
-    /**
-     * 去查找页面
-     * @param session
-     * @param model
-     */
-    @GetMapping("/info")
-    public String info(HttpSession session, Model model){
-        MemberEntity member = (MemberEntity) session.getAttribute("user");
-        model.addAttribute("member",member);
-        return PREFIX + "/info";
     }
 
     /**
@@ -79,8 +87,9 @@ public class MemberController {
      */
     @RequestMapping("/delete")
     @ResponseBody
-    public ResultVO delete(@RequestBody Long[] MemberIDs){
-        memberService.removeByIds(Arrays.asList(MemberIDs));
+    public ResultVO delete(@RequestBody Long[] memberIds){
+        //TODO 级联删除所有的信用卡
+        memberService.removeByIds(Arrays.asList(memberIds));
         return ResultVO.success();
     }
 
@@ -92,7 +101,8 @@ public class MemberController {
     @RequestMapping("/list")
     @ResponseBody
     public ResultVO list(@RequestParam Map<String, Object> params){
-        List<MemberEntity> MemberEntityList = memberService.queryList(params);
-        return ResultVO.success().put("list", MemberEntityList);
+        List<MemberEntity> memberEntityList = memberService.queryList(params);
+        return ResultVO.success().put("list", memberEntityList);
     }
+
 }

@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.sys.credit.entity.CreditCardEntity;
-import com.sys.credit.mapper.CreditCardMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,16 +17,6 @@ import java.util.List;
  */
 @SpringBootTest
 public class Tests {
-
-    @Autowired
-    CreditCardMapper mapper;
-
-    @Test
-    void contextLoads() {
-        mapper.insert(new CreditCardEntity());
-        List<CreditCardEntity> cardList = mapper.selectList(new QueryWrapper<>());
-        cardList.forEach(System.out::println);
-    }
 
     @Test
     void test() {

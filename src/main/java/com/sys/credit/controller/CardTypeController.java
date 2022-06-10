@@ -1,57 +1,63 @@
 package com.sys.credit.controller;
 
-import com.common.entity.ResultVO;
-import com.sys.credit.entity.CreditCardEntity;
-import com.sys.credit.entity.CreditTypeEntity;
-import com.sys.credit.service.impl.CreditCardServiceImpl;
-import com.sys.credit.service.impl.CreditTypeServiceImpl;
-import com.sys.member.entity.MemberEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.CannotGetJdbcConnectionException;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.jdbc.CannotGetJdbcConnectionException;
-import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.common.entity.ResultVO;
+import com.sys.credit.entity.CardEntity;
+import com.sys.credit.service.impl.CardServiceImpl;
+import com.sys.credit.service.impl.CardTypeServiceImpl;
+import com.sys.credit.vo.CardVO;
+import com.sys.member.entity.MemberEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
+import com.sys.credit.entity.CardTypeEntity;
+import com.sys.credit.service.CardTypeService;
+
+import javax.servlet.http.HttpSession;
+
+
 /**
- * @author Bandit
- * @createTime 2022/6/6 17:02
+ *
+ *
+ * @author bandit
+ * @email ldslee@qq.com
+ * @date 2022-06-10 11:42:50
  */
-@Controller
-@RequestMapping("/credit")
-public class CreditCardController {
+@RestController
+@RequestMapping("credit/cardtype")
+public class CardTypeController {
 
     private static final String PREFIX= "/credit";
 
     @Autowired
-    CreditCardServiceImpl creditCardService;
+    CardServiceImpl creditCardService;
 
     @Autowired
-    CreditTypeServiceImpl creditTypeService;
+    CardTypeServiceImpl creditTypeService;
 
     @GetMapping("/card")
     public String creditCard(ModelMap modelMap) {
-        List<CreditCardEntity> list = creditCardService.queryList(null);
+        List<CardEntity> list = creditCardService.queryList(null);
         modelMap.put("creditCardList", list);
         return PREFIX + "/card";
     }
 
     @GetMapping("/toAdd")
     public String add(Model model) {
-        List<CreditTypeEntity> typeEntityList = creditTypeService.queryList(null);
+        List<CardTypeEntity> typeEntityList = creditTypeService.queryList(null);
         model.addAttribute("typeList", typeEntityList);
         return PREFIX + "/add";
     }
 
     @GetMapping("/edit/{cardId}")
-    public String edit(@PathVariable Integer cardId, ModelMap modelMap) {
-        CreditCardEntity creditCardEntity = creditCardService.getCardById(cardId);
-        modelMap.put("creditCard", creditCardEntity);
+    public String edit(@PathVariable Long cardId, ModelMap modelMap) {
+        CardVO cardEntity = creditCardService.getCardById(cardId);
+        modelMap.put("creditCard", cardEntity);
         return PREFIX + "/edit";
     }
 
@@ -61,8 +67,8 @@ public class CreditCardController {
     @RequestMapping("/list")
     @ResponseBody
     public ResultVO list(@RequestParam Map<String, Object> params){
-        List<CreditCardEntity> creditCardEntityList = creditCardService.queryList(params);
-        return ResultVO.success().put("list", creditCardEntityList);
+        List<CardEntity> cardEntityList = creditCardService.queryList(params);
+        return ResultVO.success().put("list", cardEntityList);
     }
 
     /**
@@ -74,7 +80,7 @@ public class CreditCardController {
     @RequestMapping("/toList")
     public String toList(HttpSession session, Model model){
         MemberEntity member = (MemberEntity) session.getAttribute("user");
-        List<CreditCardEntity> creditCardEntityList = creditCardService.queryListWithMember(member);
+        List<CardVO> creditCardEntityList = creditCardService.queryListWithMember(member);
         model.addAttribute("creditCardList", creditCardEntityList);
         return PREFIX + "/list";
     }
@@ -85,7 +91,7 @@ public class CreditCardController {
      */
     @RequestMapping("/info/{creditCard}")
     public ResultVO info(@PathVariable("creditCard") Long cardId){
-        CreditCardEntity creditCardEntity = creditCardService.getById(cardId);
+        CardEntity creditCardEntity = creditCardService.getById(cardId);
         return ResultVO.success().put("creditCardEntity", creditCardEntity);
     }
 
@@ -94,15 +100,15 @@ public class CreditCardController {
      */
     @RequestMapping("/save")
     @ResponseBody
-    public ResultVO save(@RequestBody CreditCardEntity creditCardEntity){
-        creditCardService.save(creditCardEntity);
+    public ResultVO save(@RequestBody CardEntity cardEntity){
+        creditCardService.save(cardEntity);
         return ResultVO.success();
     }
 
     @RequestMapping("/toUpgrade/{cardId}")
-    public String toUpgrade(@PathVariable Integer cardId, Model model) {
-        CreditCardEntity creditCard = creditCardService.getCardById(cardId);
-        List<CreditTypeEntity> typeList = creditTypeService.list();
+    public String toUpgrade(@PathVariable Long cardId, Model model) {
+        CardVO creditCard = creditCardService.getCardById(cardId);
+        List<CardTypeEntity> typeList = creditTypeService.list();
         model.addAttribute("creditCard",creditCard);
         model.addAttribute("typeList",typeList);
         return PREFIX + "/upgrade";
@@ -113,8 +119,8 @@ public class CreditCardController {
      */
     @RequestMapping("/update")
     @ResponseBody
-    public ResultVO update(@RequestBody CreditCardEntity creditCardEntity){
-        creditCardService.updateById(creditCardEntity);
+    public ResultVO update(@RequestBody CardEntity cardEntity){
+        creditCardService.updateById(cardEntity);
         return ResultVO.success();
     }
 
