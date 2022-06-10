@@ -25,7 +25,7 @@ public class Tests {
 
     @Test
     void contextLoads() {
-        mapper.insert(new CreditCardEntity(null, 2, "测试", 1, 0));
+        mapper.insert(new CreditCardEntity());
         List<CreditCardEntity> cardList = mapper.selectList(new QueryWrapper<>());
         cardList.forEach(System.out::println);
     }

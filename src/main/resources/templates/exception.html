@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Exception</title>
+    <!-- Bootstrap -->
+    <link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h2>错误</h2>
+    <div class="alert alert-danger">
+        <strong>错误!</strong> <p th:text="${msg}"></p>
+    </div>
+    <a th:href="@{/index}">点击回到首页</a>
+</div>
+<th:block th:replace="~{common/header::scrpit}"></th:block>
+</body>
+</html>

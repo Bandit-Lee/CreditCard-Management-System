@@ -47,6 +47,7 @@ public class ResultVO extends HashMap<String, Object> {
 
     public static ResultVO error(String msg) {
         ResultVO r = new ResultVO();
+        r.put("code", 500);
         r.put("msg", msg);
         return r;
     }

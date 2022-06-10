@@ -9,4 +9,5 @@ import com.sys.credit.entity.CreditCardEntity;
  */
 public interface CreditCardService extends IService<CreditCardEntity> {
 
+    CreditCardEntity getCardById(Integer cardId);
 }

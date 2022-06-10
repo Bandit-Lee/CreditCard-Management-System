@@ -1,13 +1,82 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>注册</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
     <link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
 </head>
 <body>
 <div th:replace="~{common/header::nav}"></div>
-注册
-<div th:replace="~{common/header::scrpit}"></div>
+<div class="container mt-3">
+    <form autocomplete="off" id="member-add" class="was-validated">
+        <div class="form-group">
+            <label for="memberName">姓名</label>
+            <input type="text" class="form-control" name="memberName" id="memberName" required>
+            <div class="valid-feedback">验证成功！</div>
+            <div class="invalid-feedback">请输入性名！</div>
+        </div>
+        <div class="form-group">
+            <label for="memberUsername">登录用户名</label>
+            <input type="text" class="form-control" name="memberUsername" id="memberUsername" required>
+            <div class="valid-feedback">验证成功！</div>
+            <div class="invalid-feedback">请输入用户名！</div>
+        </div>
+        <div class="form-group">
+            <label for="memberPassword">密码</label>
+            <input type="password" class="form-control" name="memberPassword" id="memberPassword" required>
+            <div class="valid-feedback">验证成功！</div>
+            <div class="invalid-feedback">请输入密码！</div>
+        </div>
+        <div class="form-group">
+            <label for="memberTel">电话号码</label>
+            <input type="text" class="form-control" name="memberTel" id="memberTel">
+        </div>
+        <div class="form-group">
+            <label for="memberAddress">家庭住址</label>
+            <input type="text" class="form-control" name="memberAddress" id="memberAddress">
+        </div>
+        <div class="form-group">
+            是否有配偶
+            <label><input type="radio" name="memberPartner" value="1">有</label>
+            <label><input type="radio" name="memberPartner" value="0">无</label>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="submitHandler()">注册</button>
+    </form>
+</div>
+
+<th:block th:replace="~{common/header::scrpit}"></th:block>
+<script th:inline="javascript">
+    function submitHandler() {
+        let formData = $('#member-add').serializeArray()
+        $.ajax({
+            method: "post",
+            url: "/member/save",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({
+                memberName: formData[0].value,
+                memberUsername: formData[1].value,
+                memberPassword: formData[2].value,
+                memberTel: formData[3].value,
+                memberAddress: formData[4].value,
+                memberPartner: formData[5].value
+            }),
+            success: function (data) {
+                if (data.code === 200) {
+                    alert(data.msg)
+                    window.location.href = "/login"
+                } else {
+                    alert(data.msg)
+                }
+
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+    }
+</script>
 </body>
 </html>

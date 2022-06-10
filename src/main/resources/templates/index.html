@@ -9,25 +9,7 @@
     <link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" th:href="@{/index}">信用卡管理系统</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item"> <a class="nav-link" th:href="@{/credit/card}">信用卡管理<span class="sr-only"></span></a></li>
-            <li class="nav-item"> <a class="nav-link" href="#">支付管理</a> </li>
-            <li class="nav-item"> <a class="nav-link" href="#">积分管理</a> </li>
-            <li class="nav-item"> <a class="nav-link" href="#">个人资料管理</a> </li>
-        </ul>
-        <ul class="nav justify-content-end">
-            <li class="nav-item">
-                <a class="nav-link" href="#">登录</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<div th:replace="~{common/header::nav}"></div>
 <div class="container mt-3">
     <div class="row">
         <div class="col-12">
