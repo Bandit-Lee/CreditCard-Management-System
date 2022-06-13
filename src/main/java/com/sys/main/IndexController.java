@@ -49,7 +49,7 @@ public class IndexController {
             model.addAttribute("msg","用户名或密码为空");
             return "redirect:login";
         }
-        MemberEntity memberEntity = memberService.LoginVerification(username, password);
+        MemberEntity memberEntity = memberService.loginVerification(username, password);
         if (memberEntity != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", memberEntity);

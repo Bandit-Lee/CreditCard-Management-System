@@ -34,14 +34,28 @@
             <input th:value="${member.memberTel}" type="text" class="form-control" name="memberTel" id="memberTel">
         </div>
         <div class="form-group">
+            <label for="memberEmail">邮箱</label>
+            <input th:value="${member.memberEmail}" type="text" class="form-control" name="memberEmail" id="memberEmail">
+        </div>
+        <div class="form-group">
             <label for="memberAddress">家庭住址</label>
             <input th:value="${member.memberAddress}" type="text" class="form-control" name="memberAddress" id="memberAddress">
+        </div>
+        <div class="form-group">
+            <label for="memberBirthday">生日</label>
+            <input th:value="${member.birthdayString}" type="date" class="form-control" name="memberBirthday" id="memberBirthday">
+        </div>
+        <div class="form-group">
+            性别
+            <label><input th:checked="${member.memberGender eq 1 ? checked : ''}" type="radio" name="memberGender" value="1">男</label>
+            <label><input th:checked="${member.memberGender eq 0 ? checked : ''}" type="radio" name="memberGender" value="0">女</label>
         </div>
         <div class="form-group">
             是否有配偶
             <label><input th:checked="${member.memberPartner eq 1 ? checked : ''}" type="radio" name="memberPartner" value="1">有</label>
             <label><input th:checked="${member.memberPartner eq 0 ? checked : ''}" type="radio" name="memberPartner" value="0">无</label>
         </div>
+
         <div class="form-group">
             <input type="hidden" name="memberId" th:value="${member.memberId}">
         </div>

@@ -26,11 +26,11 @@
     </div>
     <div class="input-group flex-nowrap">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="memberAddress">
-                <strong>住址</strong>
+            <span class="input-group-text" id="memberUsername">
+                <strong>用户名</strong>
             </span>
         </div>
-        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberAddress}" aria-label="memberAddress" aria-describedby="memberAddress">
+        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberUsername}" aria-label="memberUsername" aria-describedby="memberUsername">
     </div>
     <div class="input-group flex-nowrap">
         <div class="input-group-prepend">
@@ -42,11 +42,35 @@
     </div>
     <div class="input-group flex-nowrap">
         <div class="input-group-prepend">
-            <span class="input-group-text" id="memberUsername">
-                <strong>用户名</strong>
+            <span class="input-group-text" id="memberEmail">
+                <strong>邮箱</strong>
             </span>
         </div>
-        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberUsername}" aria-label="memberUsername" aria-describedby="memberUsername">
+        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberEmail}" aria-label="memberEmail" aria-describedby="memberEmail">
+    </div>
+    <div class="input-group flex-nowrap">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="memberAddress">
+                <strong>家庭住址</strong>
+            </span>
+        </div>
+        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberAddress}" aria-label="memberAddress" aria-describedby="memberAddress">
+    </div>
+    <div class="input-group flex-nowrap">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="memberBirthday">
+                <strong>生日</strong>
+            </span>
+        </div>
+        <input type="text" readonly="readonly" class="form-control" th:value="${member.birthdayString}" aria-label="memberBirthday" aria-describedby="memberBirthday">
+    </div>
+    <div class="input-group flex-nowrap">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="memberGender">
+                <strong>性别</strong>
+            </span>
+        </div>
+        <input type="text" readonly="readonly" class="form-control" th:value="${member.memberGender eq 1 ? '男' : '女'}" aria-label="memberGender" aria-describedby="memberGender">
     </div>
     <div class="input-group flex-nowrap">
         <div class="input-group-prepend">

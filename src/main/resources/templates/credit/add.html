@@ -8,29 +8,22 @@
 <body>
 <div th:replace="~{common/header::nav}"></div>
 <div class="container mt-3">
-
-    <form autocomplete="off" id="card-add" class="was-validated">
+    <form th:action="@{/credit/toAddInfo}" method="post" autocomplete="off" id="card-add" class="was-validated">
         <div class="form-group">
-            <label for="cardType">申请的信用卡等级</label>
+            <label for="cardType">申请的信用卡类型</label>
             <select class="form-control" name="cardType" id="cardType">
                 <option th:each="type: ${typeList}" th:text="${type.typeName}" th:value="${type.typeId}"></option>
             </select>
-            <div class="invalid-feedback">请选择信用卡等级！</div>
+            <div class="invalid-feedback">请选择信用卡类型！</div>
         </div>
         <div class="form-group">
-            <input type="hidden" class="form-control" th:value="${session.user.getMemberId()}" name="cardOwner" id="cardOwner">
-        </div>
-        <div class="form-group">
-            <label for="cardDescribe">信用卡运营商</label>
-            <select class="form-control" name="cardDescribe" id="cardDescribe">
-                <option value="Master卡">Master卡</option>
-                <option value="JCB卡">JCB卡</option>
-                <option value="VISA卡">VISA卡</option>
-                <option value="ETC卡">ETC卡</option>
+            <label for="cardPublisher">信用卡运营商</label>
+            <select class="form-control" name="cardPublisher" id="cardPublisher">
+                <option th:each="publisher: ${publisherList}" th:text="${publisher.publisherName}" th:value="${publisher.publisherId}"></option>
             </select>
             <div class="invalid-feedback">请选择运营商！</div>
         </div>
-        <button type="button" class="btn btn-primary" onclick="submitHandler()">Submit</button>
+        <button type="submit" class="btn btn-primary" >Continue</button>
     </form>
 </div>
 
@@ -40,13 +33,12 @@
         let formData = $('#card-add').serializeArray()
         $.ajax({
             method: "post",
-            url: "/credit/save",
+            url: "/credit/toAddInfo",
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify({
                 cardType: formData[0].value,
-                cardOwner: formData[1].value,
-                cardDescribe: formData[2].value,
+                cardPublisher: formData[1].value,
             }),
             success: function (data) {
                 if (data.code === 200) {

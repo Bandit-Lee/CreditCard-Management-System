@@ -4,13 +4,27 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.sys.member.entity.MemberEntity;
 
 /**
- * @author Bandit
- * @createTime 2022/6/7 15:12
+ *
+ *
+ * @author bandit
+ * @email ldslee@qq.com
+ * @date 2022-06-10 11:42:50
  */
 public interface MemberService extends IService<MemberEntity> {
 
-    MemberEntity LoginVerification(String username, String password);
+    /**
+     * 用户登录校验
+     * @param username 用户名
+     * @param password 密码
+     * @return 会员实体类
+     */
+    MemberEntity loginVerification(String username, String password);
 
+    /**
+     * 会员注册
+     * @param memberEntity 会员实体类
+     * @return true/false 成功或失败
+     */
     boolean saveRegister(MemberEntity memberEntity);
-
 }
+

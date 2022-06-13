@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sys.credit.mapper.CardMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.sys.credit.entity.CardEntity" id="cardMap">
+        <result property="cardId" column="card_id"/>
+        <result property="cardNumber" column="card_number"/>
+        <result property="cardType" column="card_type"/>
+        <result property="familyNumber" column="family_number"/>
+        <result property="familyMemberName" column="family_member_name"/>
+        <result property="familyWorkProfession" column="family_work_profession"/>
+        <result property="familyWorkLocation" column="family_work_location"/>
+        <result property="workProfession" column="work_profession"/>
+        <result property="workLocation" column="work_location"/>
+        <result property="goldFlag" column="gold_flag"/>
+        <result property="verifyFlag" column="verify_flag"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+    <select id="getLastCardId" resultType="java.lang.Long">
+        SELECT LAST_INSERT_ID() FROM card LIMIT 1
+    </select>
+
+
+</mapper>

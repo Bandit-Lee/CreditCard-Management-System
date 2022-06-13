@@ -1,7 +1,6 @@
 package com.common.utils;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.sys.credit.entity.CreditCardEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,45 +48,45 @@ public class CardImageStoreUtils {
         ImageStore.put(OTHER_CARD,"https://img.banditblog.top/web-project/card-img.png");
     }
 
-    public static String transform(CreditCardEntity creditCardEntity) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String str = creditCardEntity.getCardDescribe();
-        Integer type = creditCardEntity.getCardType();
-        if (!StringUtils.isEmpty(str)) {
-            switch (str) {
-                case "JCB卡":
-                    stringBuilder.append("JCB_");
-                    break;
-                case "Master卡":
-                    stringBuilder.append("MASTER_");
-                    break;
-                case "VISA卡":
-                    stringBuilder.append("VISA_");
-                    break;
-                case "ETC卡":
-                    stringBuilder.append("ETC_");
-                    break;
-                default:
-                    stringBuilder.append("OTHER_");
-                    break;
-            }
-            switch (type) {
-                case 1:
-                    stringBuilder.append("COMMON");
-                    break;
-                case 3:
-                    stringBuilder.append("SILVER");
-                    break;
-                case 4:
-                    stringBuilder.append("GOLD");
-                    break;
-                default:
-                    stringBuilder.append("CARD");
-                    break;
-            }
-        }
-        return stringBuilder.toString();
-    }
+//    public static String transform(CreditCardEntity creditCardEntity) {
+//        StringBuilder stringBuilder = new StringBuilder();
+//        String str = creditCardEntity.getCardDescribe();
+//        Integer type = creditCardEntity.getCardType();
+//        if (!StringUtils.isEmpty(str)) {
+//            switch (str) {
+//                case "JCB卡":
+//                    stringBuilder.append("JCB_");
+//                    break;
+//                case "Master卡":
+//                    stringBuilder.append("MASTER_");
+//                    break;
+//                case "VISA卡":
+//                    stringBuilder.append("VISA_");
+//                    break;
+//                case "ETC卡":
+//                    stringBuilder.append("ETC_");
+//                    break;
+//                default:
+//                    stringBuilder.append("OTHER_");
+//                    break;
+//            }
+//            switch (type) {
+//                case 1:
+//                    stringBuilder.append("COMMON");
+//                    break;
+//                case 3:
+//                    stringBuilder.append("SILVER");
+//                    break;
+//                case 4:
+//                    stringBuilder.append("GOLD");
+//                    break;
+//                default:
+//                    stringBuilder.append("CARD");
+//                    break;
+//            }
+//        }
+//        return stringBuilder.toString();
+//    }
 
     public static String getURL(String key) {
         return ImageStore.get(key);

@@ -16,8 +16,8 @@
     <table class="table table-bordered">
         <thead class="thead-dark">
         <tr>
-            <th>信用卡ID</th>
-            <th>信用卡运营商</th>
+            <th>信用卡卡号</th>
+            <th>信用卡发行商</th>
             <th>信用卡等级</th>
             <th>信用卡图片</th>
             <th>操作</th>
@@ -26,17 +26,18 @@
         <tbody>
         <tr th:each="card : ${creditCardList}">
             <td class="text-center">
-                <div th:text="${card.cardId}"></div>
+                <div th:text="${card.cardNumber}"></div>
             </td>
             <td class="text-center">
-                <div th:text="${card.cardDescribe}"></div>
+                <div th:text="${card.cardPublisherName}"></div>
             </td>
             <td class="text-center">
                 <div th:text="${card.cardTypeName}" th:value="${card.cardType}"></div>
             </td>
             <td class="text-center">
-                <img th:src="${card.cardImageURL}" alt="">
+                <img th:src="${card.cardImageUrl}" alt="">
             </td>
+            <!-- //TODO 信用卡List属性展示         -->
             <td class="text-center">
                 <button class="btn btn-outline-primary" th:onclick="modifyHandler([[${card.cardId}]])">修改卡信息</button>
                 <button class="btn btn-outline-success" th:onclick="upgradeHandler([[${card.cardId}]])">升级</button>

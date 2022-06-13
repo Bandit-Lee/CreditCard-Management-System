@@ -38,9 +38,22 @@
             <input type="text" class="form-control" name="memberAddress" id="memberAddress">
         </div>
         <div class="form-group">
+            性别
+            <label><input type="radio" name="memberGender" value="1">男</label>
+            <label><input type="radio" name="memberGender" value="0">女</label>
+        </div>
+        <div class="form-group">
             是否有配偶
             <label><input type="radio" name="memberPartner" value="1">有</label>
             <label><input type="radio" name="memberPartner" value="0">无</label>
+        </div>
+        <div class="form-group">
+            <label for="memberEmail">电子邮箱</label>
+            <input type="text" class="form-control" name="memberEmail" id="memberEmail">
+        </div>
+        <div class="form-group">
+            <label for="memberBirthday">生日</label>
+            <input type="date" class="form-control" name="memberBirthday" id="memberBirthday">
         </div>
         <button type="button" class="btn btn-primary" onclick="submitHandler()">注册</button>
     </form>
@@ -61,7 +74,10 @@
                 memberPassword: formData[2].value,
                 memberTel: formData[3].value,
                 memberAddress: formData[4].value,
-                memberPartner: formData[5].value
+                memberGender: formData[5].value,
+                memberPartner: formData[6].value,
+                memberEmail: formData[7].value,
+                memberBirthday: formData[8].value,
             }),
             success: function (data) {
                 if (data.code === 200) {
