@@ -1,6 +1,7 @@
 package com.common.utils;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.sys.credit.entity.CardEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,47 +49,30 @@ public class CardImageStoreUtils {
         ImageStore.put(OTHER_CARD,"https://img.banditblog.top/web-project/card-img.png");
     }
 
-//    public static String transform(CreditCardEntity creditCardEntity) {
-//        StringBuilder stringBuilder = new StringBuilder();
-//        String str = creditCardEntity.getCardDescribe();
-//        Integer type = creditCardEntity.getCardType();
-//        if (!StringUtils.isEmpty(str)) {
-//            switch (str) {
-//                case "JCB卡":
-//                    stringBuilder.append("JCB_");
-//                    break;
-//                case "Master卡":
-//                    stringBuilder.append("MASTER_");
-//                    break;
-//                case "VISA卡":
-//                    stringBuilder.append("VISA_");
-//                    break;
-//                case "ETC卡":
-//                    stringBuilder.append("ETC_");
-//                    break;
-//                default:
-//                    stringBuilder.append("OTHER_");
-//                    break;
-//            }
-//            switch (type) {
-//                case 1:
-//                    stringBuilder.append("COMMON");
-//                    break;
-//                case 3:
-//                    stringBuilder.append("SILVER");
-//                    break;
-//                case 4:
-//                    stringBuilder.append("GOLD");
-//                    break;
-//                default:
-//                    stringBuilder.append("CARD");
-//                    break;
-//            }
-//        }
-//        return stringBuilder.toString();
-//    }
+    public static String transform(CardEntity cardEntity) {
+        StringBuilder stringBuilder = new StringBuilder();
+        Long publisherId = cardEntity.getCardPublisher();
+        Integer goldFlag = cardEntity.getGoldFlag();
+        if (publisherId != null && goldFlag != null) {
+            if (publisherId == 1) {
+                stringBuilder.append("VISA_");
+            } else if (publisherId == 2) {
+                stringBuilder.append("MASTER_");
+            } else if (publisherId == 3) {
+                stringBuilder.append("JCB_");
+            } else {
+                stringBuilder.append("ETC_");
+            }
+            if (goldFlag == 0) {
+                stringBuilder.append("COMMON");
+            } else {
+                stringBuilder.append("GOLD");
+            }
+        }
+        return stringBuilder.toString();
+    }
 
-    public static String getURL(String key) {
+    public static String getUrl(String key) {
         return ImageStore.get(key);
     }
 }

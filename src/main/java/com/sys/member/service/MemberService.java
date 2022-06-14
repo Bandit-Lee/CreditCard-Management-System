@@ -26,5 +26,11 @@ public interface MemberService extends IService<MemberEntity> {
      * @return true/false 成功或失败
      */
     boolean saveRegister(MemberEntity memberEntity);
+
+    /**
+     * 级联删除member相关的所有信息
+     * @param member
+     */
+    void removeCascade(MemberEntity member);
 }
 

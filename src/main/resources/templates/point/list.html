@@ -19,21 +19,17 @@
     <table class="table table-bordered">
         <thead class="thead-dark">
             <tr>
-                <th>积分编号</th>
                 <th>积分值</th>
-                <th>积分状态</th>
+                <th>积分记录日期</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="point : ${pointlist}" >
                 <td class="text-center">
-                    <div th:text="${point.pointID}"></div>
-                </td>
-                <td class="text-center">
                     <div th:text="${point.pointNum}"></div>
                 </td>
                 <td class="text-center">
-                    <div th:text="${point.pointStatus}"></div>
+                    <div th:text="${#dates.format(point.pointDate, 'yyyy/MM/dd HH:mm:ss')}"></div>
                 </td>
             </tr>
         </tbody>

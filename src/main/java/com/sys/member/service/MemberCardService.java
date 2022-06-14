@@ -3,6 +3,8 @@ package com.sys.member.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sys.member.entity.MemberCardEntity;
+import com.sys.member.entity.MemberEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,5 +24,12 @@ public interface MemberCardService extends IService<MemberCardEntity> {
      * @return
      */
     List<MemberCardEntity> getListByMemberId(Long memberId);
+
+    /**
+     * 通过cardId获取member
+     * @param cardId
+     * @return
+     */
+    MemberEntity getMemberByCardId(Long cardId);
 }
 

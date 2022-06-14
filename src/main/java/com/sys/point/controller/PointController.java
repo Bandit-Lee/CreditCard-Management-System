@@ -1,6 +1,7 @@
 package com.sys.point.controller;
 
 import com.common.entity.ResultVO;
+import com.sys.member.entity.MemberEntity;
 import com.sys.point.entity.PointEntity;
 import com.sys.point.service.impl.PointServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,8 +46,8 @@ public class PointController {
      */
     @RequestMapping("/delete")
     @ResponseBody
-    public ResultVO delete(@RequestBody Long[] pointIDs){
-        pointService.removeByIds(Arrays.asList(pointIDs));
+    public ResultVO delete(@RequestBody Long[] pointIds){
+        pointService.removeByIds(Arrays.asList(pointIds));
         return ResultVO.success();
     }
 
@@ -52,8 +55,8 @@ public class PointController {
      * 查找
      */
     @RequestMapping("/info/{point}")
-    public ResultVO info(@PathVariable("point") Long pointID){
-        PointEntity pointEntity = pointService.getById(pointID);
+    public ResultVO info(@PathVariable("point") Long pointId){
+        PointEntity pointEntity = pointService.getById(pointId);
         return ResultVO.success().put("PointEntity", pointEntity);
     }
 
@@ -61,9 +64,12 @@ public class PointController {
      * 列表
      */
     @RequestMapping("/list")
-    public String list(Model model){
-        List<PointEntity> PointEntityList = pointService.queryList(null);
-        model.addAttribute("pointlist",PointEntityList);
+    public String list(HttpSession session, Model model){
+        MemberEntity user = (MemberEntity) session.getAttribute("user");
+        Map<String, Object> params = new HashMap<>();
+        params.put("member", user);
+        List<PointEntity> pointEntityList = pointService.queryList(params);
+        model.addAttribute("pointlist",pointEntityList);
         return PREFIX + "/list";
     }
 

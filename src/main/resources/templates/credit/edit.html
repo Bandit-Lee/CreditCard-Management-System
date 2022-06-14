@@ -10,26 +10,77 @@
 <div class="container mt-3">
     <form autocomplete="off" id="card-edit" class="was-validated">
         <div class="form-group">
+            <input class="form-control" type="hidden" id="cardId" name="cardId" th:value="${creditCard.cardId}" >
+        </div>
+        <div class="form-group">
             <label for="cardType">申请的信用卡等级</label>
-            <input type="hidden" id="cardType" name="cardType" th:value="${creditCard.cardType}" >
-            <input type="text" th:value="${creditCard.cardTypeName}" readonly="readonly">
+            <input class="form-control" type="hidden" id="cardType" name="cardType" th:value="${creditCard.cardType}" >
+            <input class="form-control" type="text" th:value="${creditCard.cardTypeName}" name="cardTypeName" readonly="readonly">
         </div>
         <div class="form-group">
-            <input type="hidden" class="form-control" th:value="${session.user.getMemberId()}" name="cardOwner" id="cardOwner">
+            <input type="hidden" class="form-control" th:value="${session.user.getMemberId()}" name="cardMember" id="cardMember">
         </div>
         <div class="form-group">
-            <label for="cardDescribe">信用卡运营商</label>
-            <select class="form-control" name="cardDescribe" id="cardDescribe">
-                <option th:selected="${creditCard.cardDescribe eq 'Master卡'}" value="Master卡">Master卡</option>
-                <option th:selected="${creditCard.cardDescribe eq 'JCB卡'}" value="JCB卡">JCB卡</option>
-                <option th:selected="${creditCard.cardDescribe eq 'VISA卡'}" value="VISA卡">VISA卡</option>
-                <option th:selected="${creditCard.cardDescribe eq 'ETC卡'}" value="ETC卡">ETC卡</option>
-            </select>
-            <div class="invalid-feedback">请选择等级！</div>
+            <label for="cardPublisher">信用卡运营商</label>
+            <input type="hidden" class="form-control" th:value="${creditCard.cardPublisher}" name="cardPublisher" id="cardPublisher">
+            <input type="text" class="form-control" th:value="${creditCard.cardPublisherName}" name="cardPublisherName" readonly>
+        </div>
+        <div th:if="${creditCard.cardTypeName eq '家庭卡'}">
+            <div class="form-group">
+                <label for="familyMemberName">家属名字</label>
+                <input class="form-control" id="familyMemberName" th:value="${creditCard.familyMemberName}" name="familyMemberName" >
+            </div>
+            <div class="form-group">
+                <label for="familyWorkProfession">家属工作方向</label>
+                <input class="form-control" id="familyWorkProfession" th:value="${creditCard.familyWorkProfession}" name="familyWorkProfession">
+            </div>
+            <div class="form-group">
+                <label for="familyWorkLocation">家属工作地点</label>
+                <input class="form-control" id="familyWorkLocation" th:value="${creditCard.familyWorkLocation}" name="familyWorkLocation" >
+            </div>
+        </div>
+        <div th:if="${(creditCard.cardTypeName eq '企业卡') || (creditCard.cardTypeName eq '企业ETC卡')}">
+            <div class="form-group">
+                <label for="workProfession">企业工作方向</label>
+                <input class="form-control" id="workProfession" th:value="${creditCard.workProfession}" name="workProfession" >
+            </div>
+            <div class="form-group">
+                <label for="workLocation">企业工作地点</label>
+                <input class="form-control" id="workLocation" th:value="${creditCard.workLocation}" name="workLocation" >
+            </div>
         </div>
         <button type="button" class="btn btn-primary" onclick="submitHandler()">Submit</button>
     </form>
 </div>
 <th:block th:replace="~{common/header::scrpit}"></th:block>
+<script th:inline="javascript">
+    function submitHandler() {
+        let formData = $('#card-edit').serializeArray()
+        let postObj= Object.create(null);
+        for (let i = 0; i < formData.length; i++) {
+            postObj[formData[i].name] = formData[i].value;
+        }
+        $.ajax({
+            method: "post",
+            url: "/credit/update",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(postObj),
+            success: function (data) {
+                if (data.code === 200) {
+                    commonUtil.alert("修改成功");
+                    setTimeout(()=>{
+                        window.location.href = "/credit/toList"
+                    },2000)
+                } else {
+                    commonUtil.alert("错误","danger")
+                }
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+    }
+</script>
 </body>
 </html>

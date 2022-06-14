@@ -12,14 +12,16 @@
 </head>
 <body>
 <div th:replace="~{common/header::nav}"></div>
-<div class="container mt-3">
+<div class="container-fluid mt-3">
     <table class="table table-bordered">
         <thead class="thead-dark">
         <tr>
             <th>信用卡卡号</th>
             <th>信用卡发行商</th>
             <th>信用卡等级</th>
+            <th>信用卡余额</th>
             <th>信用卡图片</th>
+            <th>信用卡状态</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -35,17 +37,44 @@
                 <div th:text="${card.cardTypeName}" th:value="${card.cardType}"></div>
             </td>
             <td class="text-center">
+                <div th:text="${card.cardBalance}"></div>
+            </td>
+            <td class="text-center">
                 <img th:src="${card.cardImageUrl}" alt="">
             </td>
-            <!-- //TODO 信用卡List属性展示         -->
             <td class="text-center">
-                <button class="btn btn-outline-primary" th:onclick="modifyHandler([[${card.cardId}]])">修改卡信息</button>
-                <button class="btn btn-outline-success" th:onclick="upgradeHandler([[${card.cardId}]])">升级</button>
-                <button class="btn btn-outline-danger" th:onclick="deleteHandler([[${card.cardId}]])">注销</button>
+                <div th:if="${card.verifyFlag eq 1}">正常</div>
+                <div th:if="${card.verifyFlag eq 0}">审核中</div>
             </td>
+            <td class="text-center">
+                <button th:disabled="${card.verifyFlag eq 0}" class="btn btn-outline-primary" th:onclick="modifyHandler([[${card.cardId}]])">修改卡信息</button>
+                <button th:disabled="${card.goldFlag eq 1 or card.verifyFlag eq 0}" class="btn btn-outline-success" th:onclick="upgradeHandler([[${card.cardId}]])">升级</button>
+                <button th:disabled="${card.verifyFlag eq 0}" class="btn btn-outline-danger" data-toggle="modal" data-target="#cancelModal" >注销</button>
+            </td>
+            <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">确定要注销吗</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            注销后你的信用卡将无法再使用，请慎重考虑！！！
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" th:onclick="deleteHandler([[${card.cardId}]])">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </tr>
         </tbody>
     </table>
+
+
 </div>
 <th:block th:replace="~{common/header::scrpit}"></th:block>
 <script th:inline="javascript">
@@ -53,11 +82,32 @@ function modifyHandler(cardId) {
     window.location.href='/credit/edit/'+cardId
 }
 function upgradeHandler(cardId) {
-    window.location.href='/credit/toUpgrade/'+cardId
+    $.ajax({
+        method: "post",
+        url: "/credit/upgrade",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify(Number.parseInt(cardId)),
+        success: function (data) {
+            if (data.code === 200) {
+                commonUtil.message("申请成功，请等待审核。。");
+                setTimeout(()=>{
+                    window.location.href = "/credit/toList"
+                },2000)
+            } else {
+                commonUtil.alert("错误","danger")
+            }
+        },
+        error: function (data) {
+            commonUtil.alert("错误","danger")
+            console.log(data)
+        }
+    });
 }
 function deleteHandler(cardId) {
     let cardIds = []
     cardIds.push(Number.parseInt(cardId))
+
     $.ajax({
         method: "post",
         url: "/credit/delete",
@@ -66,13 +116,18 @@ function deleteHandler(cardId) {
         data: JSON.stringify(cardIds),
         success: function (data) {
             if (data.code === 200) {
-                alert(data.msg)
-                window.location.href = "/credit/toList"
+                $('#cancelModal').modal('toggle')
+                commonUtil.message("注销成功");
+                setTimeout(()=>{
+                    window.location.href = "/credit/toList"
+                },2000)
+
             } else {
-                alert(data.msg)
+                commonUtil.alert("错误","danger")
             }
         },
         error: function (data) {
+            commonUtil.alert("错误","danger")
             console.log(data)
         }
     });

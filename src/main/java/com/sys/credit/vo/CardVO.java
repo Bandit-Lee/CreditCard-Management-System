@@ -3,6 +3,7 @@ package com.sys.credit.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @author Bandit
@@ -21,6 +22,10 @@ public class CardVO implements Serializable {
      */
     private String cardNumber;
     /**
+     * 信用卡余额
+     */
+    private BigDecimal cardBalance;
+    /**
      * 信用卡类型:个人卡，家庭卡，企业卡，ETC卡等
      */
     private Long cardType;
@@ -32,6 +37,10 @@ public class CardVO implements Serializable {
      * 信用卡归属者
      */
     private Long cardMember;
+    /**
+     * 信用卡归属者名字
+     */
+    private String cardMemberName;
     /**
      * 信用卡类型名称
      */
@@ -73,7 +82,7 @@ public class CardVO implements Serializable {
      */
     private Integer goldFlag;
     /**
-     * 审核标志：1:通过，0:不通过
+     * 审核标志：1:通过，0:审核中
      */
     private Integer verifyFlag;
     /**

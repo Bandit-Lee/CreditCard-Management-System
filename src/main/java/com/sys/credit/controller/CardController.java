@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.common.entity.ResultVO;
+import com.common.utils.CardImageStoreUtils;
 import com.sys.credit.entity.CardPublisherEntity;
 import com.sys.credit.entity.CardTypeEntity;
 import com.sys.credit.service.impl.CardPublisherServiceImpl;
@@ -62,29 +63,28 @@ public class CardController {
     @GetMapping("/edit/{cardId}")
     public String edit(@PathVariable Long cardId, ModelMap modelMap) {
         CardVO cardEntity = creditCardService.getCardById(cardId);
+        List<CardPublisherEntity> cardPublisherList = cardPublisherService.list();
         modelMap.put("creditCard", cardEntity);
+        modelMap.put("cardPublisherList", cardPublisherList);
         return PREFIX + "/edit";
     }
 
     @PostMapping("/toAddInfo")
-    public String addInfo(@RequestParam Integer cardType,
-                          @RequestParam Integer cardPublisher,
+    public String addInfo(@RequestParam Long cardType,
+                          @RequestParam Long cardPublisher,
                           Model model) {
         CardTypeEntity cardTypeEntity = creditTypeService.getById(cardType);
         CardPublisherEntity cardPublisherEntity = cardPublisherService.getById(cardPublisher);
+        CardEntity cardEntity = CardEntity.builder()
+                .cardType(cardType)
+                .cardPublisher(cardPublisher)
+                .goldFlag(0).build();
+        String transform = CardImageStoreUtils.transform(cardEntity);
+        String url = CardImageStoreUtils.getUrl(transform);
+        model.addAttribute("url",url);
         model.addAttribute("type",cardTypeEntity);
         model.addAttribute("publisher",cardPublisherEntity);
         return PREFIX + "/add-info";
-    }
-
-    /**
-     * 列表
-     */
-    @RequestMapping("/list")
-    @ResponseBody
-    public ResultVO list(@RequestParam Map<String, Object> params){
-        List<CardEntity> cardEntityList = creditCardService.queryList(params);
-        return ResultVO.success().put("list", cardEntityList);
     }
 
     /**
@@ -101,6 +101,31 @@ public class CardController {
         return PREFIX + "/list";
     }
 
+    @RequestMapping("/toUpgrade/{cardId}")
+    public String toUpgrade(@PathVariable Long cardId, Model model) {
+        CardVO creditCard = creditCardService.getCardById(cardId);
+        List<CardTypeEntity> typeList = creditTypeService.list();
+        model.addAttribute("creditCard",creditCard);
+        model.addAttribute("typeList",typeList);
+        return PREFIX + "/upgrade";
+    }
+
+    @RequestMapping("/toVerify")
+    public String toVerify(Model model) {
+        List<CardVO> list = creditCardService.queryAllListUnVerified();
+        model.addAttribute("cardList",list);
+        return PREFIX + "/verify";
+    }
+
+    /**
+     * 列表
+     */
+    @RequestMapping("/list")
+    @ResponseBody
+    public ResultVO list(@RequestParam Map<String, Object> params){
+        List<CardEntity> cardEntityList = creditCardService.queryList(params);
+        return ResultVO.success().put("list", cardEntityList);
+    }
 
     /**
      * 信息
@@ -121,13 +146,18 @@ public class CardController {
         return ResultVO.success();
     }
 
-    @RequestMapping("/toUpgrade/{cardId}")
-    public String toUpgrade(@PathVariable Long cardId, Model model) {
-        CardVO creditCard = creditCardService.getCardById(cardId);
-        List<CardTypeEntity> typeList = creditTypeService.list();
-        model.addAttribute("creditCard",creditCard);
-        model.addAttribute("typeList",typeList);
-        return PREFIX + "/upgrade";
+    @RequestMapping("/upgrade")
+    @ResponseBody
+    public ResultVO upgrade(@RequestBody Long cardId) {
+        creditCardService.upgradeCardLevel(cardId);
+        return ResultVO.success();
+    }
+
+    @RequestMapping("/verify/{cardId}/{flag}")
+    @ResponseBody
+    public ResultVO verify(@PathVariable Long cardId, @PathVariable Integer flag) {
+        creditCardService.verifyCardById(cardId, flag);
+        return ResultVO.success();
     }
 
     /**

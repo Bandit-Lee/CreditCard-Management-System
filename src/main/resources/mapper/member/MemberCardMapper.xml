@@ -12,5 +12,11 @@
         <result property="delFlag" column="del_flag"/>
     </resultMap>
 
+    <select id="getMemberByCardId" resultType="com.sys.member.entity.MemberEntity">
+        select * from member m
+        left join member_card mc on mc.member_id = m.member_id
+        where card_id = #{cardId}
+    </select>
+
 
 </mapper>

@@ -1,15 +1,14 @@
-package com.sys.credit.entity;
+package com.sys.member.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  *
@@ -19,33 +18,33 @@ import lombok.NoArgsConstructor;
  * @date 2022-06-10 11:42:50
  */
 @Data
-@TableName("card_card_publisher")
+@TableName("member_point")
 @NoArgsConstructor
 @AllArgsConstructor
-public class CardCardPublisherEntity implements Serializable {
+public class MemberPointEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 主键id
 	 */
 	@TableId(type = IdType.AUTO)
-	private Long ccpId;
+	private Long mpId;
 	/**
-	 * 信用卡id
+	 * 会员id
 	 */
-	private Long cardId;
+	private Long memberId;
 	/**
-	 * 发行商id
+	 * 积分id
 	 */
-	private Long cardPublisherId;
+	private Long pointId;
 	/**
 	 * 删除标志
 	 */
 	@TableLogic
 	private Integer delFlag;
 
-	public CardCardPublisherEntity(Long cardId, Long cardPublisherId) {
-		this.cardId = cardId;
-		this.cardPublisherId = cardPublisherId;
+	public MemberPointEntity(Long memberId, Long pointId) {
+		this.memberId = memberId;
+		this.pointId = pointId;
 	}
 }

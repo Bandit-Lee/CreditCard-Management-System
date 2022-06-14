@@ -1,42 +1,39 @@
-package com.sys.point.entity;
+package com.sys.payment.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * @author Bandit
+ * @createTime 2022/6/13 11:26
  */
-@TableName("point")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@ToString
-public class PointEntity {
+@AllArgsConstructor
+@TableName("payment")
+public class PaymentEntity {
     /**
-     * 积分id
+     * 主键id
      */
     @TableId(type = IdType.AUTO)
-    private Long pointId;
+    private Long paymentId;
     /**
-     * 积分数值
+     * 支付金额
      */
-    private Long pointNum;
+    private BigDecimal paymentValue;
     /**
-     * 积分记录日期
+     * 支付日期
      */
-    private Date pointDate;
+    private Date paymentDate;
     /**
      * 删除标志
      */
-    @TableLogic
     private Integer delFlag;
-
 }

@@ -46,5 +46,24 @@ public interface CardService extends IService<CardEntity> {
      * @param cardVO
      */
     void saveCascade(CardVO cardVO);
+
+    /**
+     * 申请信用卡升级
+     * @param cardId
+     */
+    void upgradeCardLevel(Long cardId);
+
+    /**
+     * 审核信用卡
+     * @param cardId
+     * @param flag
+     */
+    void verifyCardById(Long cardId, Integer flag);
+
+    /**
+     * 查询所有未审核的信用卡
+     * @return
+     */
+    List<CardVO> queryAllListUnVerified();
 }
 

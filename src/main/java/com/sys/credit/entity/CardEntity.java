@@ -3,8 +3,13 @@ package com.sys.credit.entity;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -15,6 +20,9 @@ import lombok.Data;
  */
 @Data
 @TableName("card")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CardEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,6 +35,10 @@ public class CardEntity implements Serializable {
 	 * 信用卡UUID卡号
 	 */
 	private String cardNumber;
+	/**
+	 * 信用卡余额
+	 */
+	private BigDecimal cardBalance;
 	/**
 	 * 信用卡类型:个人卡，家庭卡，企业卡，ETC卡等
 	 */

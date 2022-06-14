@@ -59,6 +59,10 @@ public class MemberEntity implements Serializable {
 	@TableField(exist = false)
 	private String birthdayString;
 	/**
+	 * 用户角色
+	 */
+	private String memberRole;
+	/**
 	 * 会员性别，1:男；0:女
 	 */
 	private Integer memberGender;

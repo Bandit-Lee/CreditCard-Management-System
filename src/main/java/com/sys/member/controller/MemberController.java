@@ -87,9 +87,10 @@ public class MemberController {
      */
     @RequestMapping("/delete")
     @ResponseBody
-    public ResultVO delete(@RequestBody Long[] memberIds){
+    public ResultVO delete(HttpSession session){
+        MemberEntity member = (MemberEntity) session.getAttribute("user");
         //TODO 级联删除所有的信用卡
-        memberService.removeByIds(Arrays.asList(memberIds));
+        memberService.removeCascade(member);
         return ResultVO.success();
     }
 

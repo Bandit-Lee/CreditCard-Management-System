@@ -3,11 +3,11 @@ package com.sys.credit.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.common.utils.CardImageStoreUtils;
 import com.sys.credit.mapper.CardMapper;
 import com.sys.credit.vo.CardVO;
 import com.sys.member.entity.MemberCardEntity;
 import com.sys.member.entity.MemberEntity;
-import com.sys.member.mapper.MemberCardMapper;
 import com.sys.member.service.impl.MemberCardServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,6 +48,29 @@ public class CardServiceImpl extends ServiceImpl<CardMapper, CardEntity> impleme
     }
 
     @Override
+    public List<CardVO> queryAllListUnVerified() {
+        Map<Long, String> typeIdToNameMap = cardTypeService.getCardTypeToNameMap();
+        Map<Long, String> publisherIdToNameMap = cardPublisherService.getPublisherIdToNameMap();
+        return list(new QueryWrapper<CardEntity>()
+                .lambda()
+                .eq(CardEntity::getVerifyFlag, 0))
+                .stream().map(cardEntity -> {
+                    CardVO cardVO = new CardVO();
+                    BeanUtils.copyProperties(cardEntity, cardVO);
+                    cardVO.setCardTypeName(typeIdToNameMap.get(cardEntity.getCardType()));
+                    cardVO.setCardPublisherName(publisherIdToNameMap.get(cardEntity.getCardPublisher()));
+                    MemberEntity member = memberCardService.getMemberByCardId(cardEntity.getCardId());
+                    cardVO.setCardMemberName(member.getMemberName());
+                    cardVO.setCardMember(member.getMemberId());
+                    String transform = CardImageStoreUtils.transform(cardEntity);
+                    String url = CardImageStoreUtils.getUrl(transform);
+                    log.info("transform:[{}],url:[{}]", transform, url);
+                    cardVO.setCardImageUrl(url);
+                    return cardVO;
+                }).collect(Collectors.toList());
+    }
+
+    @Override
     public List<CardVO> queryListWithMember(MemberEntity memberEntity) {
         Long memberId = memberEntity.getMemberId();
         //Member-Card关联关系列表
@@ -65,14 +88,13 @@ public class CardServiceImpl extends ServiceImpl<CardMapper, CardEntity> impleme
                 .stream()
                 .map(cardEntity -> {
                     CardVO cardVO = new CardVO();
-                    //TODO 设置信用卡的URL
                     BeanUtils.copyProperties(cardEntity, cardVO);
                     cardVO.setCardTypeName(typeIdToNameMap.get(cardEntity.getCardType()));
                     cardVO.setCardPublisherName(publisherIdToNameMap.get(cardEntity.getCardPublisher()));
-                    // String transform = CardImageStoreUtils.transform(creditCardEntity);
-                    // String url = CardImageStoreUtils.getURL(transform);
-                    // log.info("transform:[{}],url:[{}]", transform, url);
-                    // creditCardEntity.setCardImageURL(url);
+                    String transform = CardImageStoreUtils.transform(cardEntity);
+                    String url = CardImageStoreUtils.getUrl(transform);
+                    log.info("transform:[{}],url:[{}]", transform, url);
+                    cardVO.setCardImageUrl(url);
                     return cardVO;
                 }).collect(Collectors.toList());
 
@@ -87,29 +109,56 @@ public class CardServiceImpl extends ServiceImpl<CardMapper, CardEntity> impleme
         //VO拷贝回实体类
         CardEntity cardEntity = new CardEntity();
         BeanUtils.copyProperties(cardVO, cardEntity);
-        //UUID
+        //卡号UUID
         cardEntity.setCardNumber(UUID.randomUUID().toString());
-
-        //加锁
+        cardEntity.setVerifyFlag(0);
+        if (cardEntity.getCardType() == 2) {
+            //如果是家庭卡，分配一个家庭卡号
+            cardEntity.setFamilyNumber(UUID.randomUUID().toString());
+        }
+        //加锁获取ID
         Long cardId;
         synchronized (SYNC) {
             save(cardEntity);
             cardId = baseMapper.getLastCardId();
         }
+        memberCardService.save(new MemberCardEntity(memberId, cardId, usingFlag));
+    }
 
-        MemberCardEntity memberCardEntity = new MemberCardEntity(memberId, cardId, usingFlag);
-        log.info("memberCard:[{}]",memberCardEntity);
-        memberCardService.save(memberCardEntity);
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void upgradeCardLevel(Long cardId) {
+        CardEntity cardEntity = getById(cardId);
+        cardEntity.setGoldFlag(1);
+        cardEntity.setVerifyFlag(0);
+        updateById(cardEntity);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void verifyCardById(Long cardId, Integer flag){
+        CardEntity cardEntity = getById(cardId);
+        if (flag == 0) {
+            // 不通过
+            cardEntity.setGoldFlag(0);
+        }
+        cardEntity.setVerifyFlag(1);
+        updateById(cardEntity);
     }
 
 
     @Override
     public CardVO getCardById(Long cardId) {
-        CardEntity creditCard = this.getById(cardId);
+        CardEntity cardEntity = this.getById(cardId);
         CardVO cardVO = new CardVO();
-        Map<Long, String> map = cardTypeService.getCardTypeToNameMap();
-        //TODO 设置信用卡的URL
-        cardVO.setCardTypeName(map.get(creditCard.getCardType()));
+        BeanUtils.copyProperties(cardEntity, cardVO);
+        Map<Long, String> typeIdToNameMap = cardTypeService.getCardTypeToNameMap();
+        Map<Long, String> publisherIdToNameMap = cardPublisherService.getPublisherIdToNameMap();
+        cardVO.setCardTypeName(typeIdToNameMap.get(cardEntity.getCardType()));
+        cardVO.setCardPublisherName(publisherIdToNameMap.get(cardEntity.getCardPublisher()));
+        String transform = CardImageStoreUtils.transform(cardEntity);
+        String url = CardImageStoreUtils.getUrl(transform);
+        cardVO.setCardImageUrl(url);
         return cardVO;
     }
 }

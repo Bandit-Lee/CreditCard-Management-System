@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>信用卡列表</title>
+  <link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
+  <style>
+    button:hover{
+      cursor:pointer
+    }
+  </style>
+</head>
+<body>
+<div th:replace="~{common/header::nav}"></div>
+<div class="container mt-3">
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th>信用卡持有者</th>
+      <th>信用卡卡号</th>
+      <th>信用卡发行商</th>
+      <th>信用卡等级</th>
+      <th>信用卡图片</th>
+      <th>信用卡状态</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="card : ${cardList}">
+      <td class="text-center">
+        <div th:text="${card.cardMemberName}"></div>
+      </td>
+      <td class="text-center">
+        <div th:text="${card.cardNumber}"></div>
+      </td>
+      <td class="text-center">
+        <div th:text="${card.cardPublisherName}"></div>
+      </td>
+      <td class="text-center">
+        <div th:text="${card.cardTypeName}" th:value="${card.cardType}"></div>
+      </td>
+      <td class="text-center">
+        <img th:src="${card.cardImageUrl}" alt="">
+      </td>
+      <td class="text-center">
+        <div th:if="${card.verifyFlag eq 1}">正常</div>
+        <div th:if="${card.verifyFlag eq 0}">审核中</div>
+      </td>
+      <td class="text-center">
+        <button class="btn btn-outline-success" th:onclick="verifyHandler([[${card.cardId}]],1)">通过审核</button>
+        <button class="btn btn-outline-danger" th:onclick="verifyHandler([[${card.cardId}]],0)">驳回申请</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<th:block th:replace="~{common/header::scrpit}"></th:block>
+<script th:inline="javascript">
+  function verifyHandler(cardId, flag) {
+    $.ajax({
+      method: "post",
+      url: "/credit/verify/" + cardId + "/" + flag,
+      contentType: "application/json",
+      dataType: "json",
+      success: function (data) {
+        if (data.code === 200) {
+          commonUtil.message("审核成功");
+          setTimeout(()=>{
+            window.location.href = "/credit/toVerify"
+          },2000)
+        } else {
+          alert(data.msg)
+        }
+      },
+      error: function (data) {
+        console.log(data)
+      }
+    });
+  }
+
+</script>
+</body>
+</html>
