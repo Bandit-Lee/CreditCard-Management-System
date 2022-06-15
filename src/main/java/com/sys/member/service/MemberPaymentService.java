@@ -19,5 +19,11 @@ import java.util.List;
  */
 public interface MemberPaymentService extends IService<MemberPaymentEntity> {
 
+    /**
+     * 通过memberId查询关联关系
+     * @param memberId
+     * @return
+     */
+    List<MemberPaymentEntity> getListByMemberId(Long memberId);
 }
 

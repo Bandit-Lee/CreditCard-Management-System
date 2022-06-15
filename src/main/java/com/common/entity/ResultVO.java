@@ -23,6 +23,7 @@ public class ResultVO extends HashMap<String, Object> {
 
     public static ResultVO success(String msg) {
         ResultVO r = new ResultVO();
+        r.put("code", 200);
         r.put("msg", msg);
         return r;
     }

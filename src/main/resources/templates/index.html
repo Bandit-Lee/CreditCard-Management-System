@@ -7,6 +7,15 @@
     <title>首页</title>
     <!-- Bootstrap -->
     <link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
+    <style>
+        .media-body > a{
+            display:inline-block;
+            width: 200px;
+            height: 50px;
+            line-height: 35px;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{common/header::nav}"></div>
@@ -47,7 +56,7 @@
                 <ul class="list-unstyled">
                     <li class="media">
                         <div class="media-body">
-                            <a class="nav-link" href="#">家族卡申请</a>
+                            <a class="btn btn-outline-primary" th:href="@{/credit/toAdd}">申请信用卡</a>
                         </div>
                     </li>
                 </ul>
@@ -56,7 +65,7 @@
                 <ul class="list-unstyled">
                     <li class="media">
                         <div class="media-body">
-                            <a class="nav-link" href="#">ETC卡申请</a>
+                            <a class="btn btn-outline-primary" th:href="@{/credit/toList}">查看名下的信用卡</a>
                         </div>
                     </li>
                 </ul>
@@ -65,7 +74,7 @@
                 <ul class="list-unstyled">
                     <li class="media">
                         <div class="media-body">
-                            <a class="nav-link" href="#">金卡申请</a>
+                            <a class="btn btn-outline-primary" th:href="@{/member/info}">查看个人资料</a>
                         </div>
                     </li>
                 </ul>
@@ -80,16 +89,7 @@
                 <ul class="list-unstyled">
                     <li class="media">
                         <div class="media-body">
-                            <a class="nav-link" href="#">注销申请</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <ul class="list-unstyled">
-                    <li class="media">
-                        <div class="media-body">
-                            <a class="nav-link" href="#">个人信息查询</a>
+                            <a class="btn btn-outline-primary" th:href="@{/member/edit}">修改个人资料</a>
                         </div>
                     </li>
                 </ul>
@@ -98,7 +98,16 @@
                 <ul class="list-unstyled">
                     <li class="media">
                         <div class="media-body">
-                            <a class="nav-link" href="#">更改个人信息</a>
+                            <a class="btn btn-outline-primary" th:href="@{/point/list}">查看积分记录</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+                <ul class="list-unstyled">
+                    <li class="media">
+                        <div class="media-body">
+                            <a class="btn btn-outline-danger" data-toggle="modal" data-target="#cancelModal">账号注销</a>
                         </div>
                     </li>
                 </ul>
@@ -139,42 +148,27 @@
         </div>
     </div>
 </section>
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6 col-12">
-                <ul class="list-unstyled">
-                    <li class="media">
-                        <div class="media-body">
-                            <a class="nav-link" href="#">個人情報の変更申請</a>
-                        </div>
-                    </li>
-                </ul>
+<hr>
+<hr>
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">确定要注销吗</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="col-lg-4 col-md-6 col-12">
-                <ul class="list-unstyled">
-                    <li class="media">
-                        <div class="media-body">
-                            <a class="nav-link" href="#">账号注销</a>
-                        </div>
-                    </li>
-                </ul>
+            <div class="modal-body">
+                注销后你的账户将无法再使用，信用卡将全部失效，请慎重考虑！！！
             </div>
-            <div class="col-lg-4 d-md-none d-lg-block">
-                <ul class="list-unstyled">
-                    <li class="media">
-                        <div class="media-body">
-                            <a class="nav-link" href="#"></a>
-                        </div>
-                    </li>
-                </ul>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" th:onclick="deleteHandler()">确定</button>
             </div>
         </div>
     </div>
-</section>
-<hr>
-<hr>
-
+</div>
 <hr>
 <div class="container"> </div>
 <footer class="text-center">
@@ -186,10 +180,32 @@
         </div>
     </div>
 </footer>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script th:src="@{/js/popper.min.js}"></script>
-<script th:src="@{/js/bootstrap-4.0.0.js}"></script>
+<th:block th:replace="~{common/header::scrpit}"></th:block>
+<script th:inline="javascript">
+    function deleteHandler() {
+        $.ajax({
+            method: "post",
+            url: "/member/delete",
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                if (data.code === 200) {
+                    $('#cancelModal').modal('toggle')
+                    commonUtil.message("注销成功");
+                    setTimeout(()=>{
+                        window.location.href = "/index"
+                    },2000)
+
+                } else {
+                    commonUtil.alert(data.message)
+                }
+            },
+            error: function (data) {
+                commonUtil.alert("错误","danger")
+                console.log(data)
+            }
+        });
+    }
+</script>
 </body>
 </html>

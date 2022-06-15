@@ -45,7 +45,9 @@ public class MemberController {
     @GetMapping("/info")
     public String info(HttpSession session, Model model){
         MemberEntity member = (MemberEntity) session.getAttribute("user");
-        member.setBirthdayString(df.format(member.getMemberBirthday()));
+        if (member.getMemberBirthday() != null) {
+            member.setBirthdayString(df.format(member.getMemberBirthday()));
+        }
         model.addAttribute("member",member);
         return PREFIX + "/info";
     }
@@ -59,7 +61,9 @@ public class MemberController {
     @GetMapping("/edit")
     public String edit(HttpSession session, Model model) {
         MemberEntity member = (MemberEntity) session.getAttribute("user");
-        member.setBirthdayString(df.format(member.getMemberBirthday()));
+        if (member.getMemberBirthday() != null) {
+            member.setBirthdayString(df.format(member.getMemberBirthday()));
+        }
         model.addAttribute("member",member);
         return PREFIX + "/edit";
     }
@@ -91,6 +95,7 @@ public class MemberController {
         MemberEntity member = (MemberEntity) session.getAttribute("user");
         //TODO 级联删除所有的信用卡
         memberService.removeCascade(member);
+        session.removeAttribute("user");
         return ResultVO.success();
     }
 

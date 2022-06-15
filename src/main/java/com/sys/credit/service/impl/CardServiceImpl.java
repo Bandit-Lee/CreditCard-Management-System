@@ -53,7 +53,8 @@ public class CardServiceImpl extends ServiceImpl<CardMapper, CardEntity> impleme
         Map<Long, String> publisherIdToNameMap = cardPublisherService.getPublisherIdToNameMap();
         return list(new QueryWrapper<CardEntity>()
                 .lambda()
-                .eq(CardEntity::getVerifyFlag, 0))
+                .eq(CardEntity::getVerifyFlag, 0)
+                .eq(CardEntity::getDelFlag, 0))
                 .stream().map(cardEntity -> {
                     CardVO cardVO = new CardVO();
                     BeanUtils.copyProperties(cardEntity, cardVO);
@@ -75,7 +76,8 @@ public class CardServiceImpl extends ServiceImpl<CardMapper, CardEntity> impleme
         Long memberId = memberEntity.getMemberId();
         //Member-Card关联关系列表
         List<MemberCardEntity> memberCardList = memberCardService.getListByMemberId(memberId);
-
+        if (memberCardList == null || memberCardList.size() == 0)
+            return null;
         //CardIds
         List<Long> cardIds = memberCardList
                 .stream()

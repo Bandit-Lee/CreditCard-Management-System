@@ -63,28 +63,25 @@
 <script th:inline="javascript">
     function submitHandler() {
         let formData = $('#member-add').serializeArray()
+        console.log(formData);
+        let postObj= Object.create(null);
+        for (let i = 0; i < formData.length; i++) {
+            postObj[formData[i].name] = formData[i].value;
+        }
         $.ajax({
             method: "post",
             url: "/member/save",
             contentType: "application/json",
             dataType: "json",
-            data: JSON.stringify({
-                memberName: formData[0].value,
-                memberUsername: formData[1].value,
-                memberPassword: formData[2].value,
-                memberTel: formData[3].value,
-                memberAddress: formData[4].value,
-                memberGender: formData[5].value,
-                memberPartner: formData[6].value,
-                memberEmail: formData[7].value,
-                memberBirthday: formData[8].value,
-            }),
+            data: JSON.stringify(postObj),
             success: function (data) {
                 if (data.code === 200) {
-                    alert(data.msg)
-                    window.location.href = "/login"
+                    commonUtil.message("注册成功");
+                    setTimeout(()=>{
+                        window.location.href = "/login"
+                    },2000)
                 } else {
-                    alert(data.msg)
+                    commonUtil.message("该用户名已存在","danger");
                 }
 
             },
