@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- com.dao.BillDao对应Dao接口 -->
+<mapper namespace="com.sys.payment.mapper.BillDao">
+	<!-- 查询全部账单信息 -->
+	<select id="selectBills"  resultType="com.sys.payment.entity.Bill" >
+		select * from bill
+	</select>
+	<!-- 根据用户ID查询账单信息 -->
+	<select id="selectBillsById" parameterType="java.lang.String" resultType="com.sys.payment.entity.Bill" >
+		select * from bill where Id = #{id}
+	</select>
+
+	<!-- 根据用户ID查询分期付款未完成账单信息 -->
+	<select id="selectHireBillsById" parameterType="java.lang.String" resultType="com.sys.payment.entity.Bill" >
+		select * from bill where Id = #{id} and Statue='未完成'
+	</select>
+
+	<select id="selectHireBillByBid" parameterType="java.lang.String" resultType="com.sys.payment.entity.Bill" >
+		select * from bill where Bid = #{id}
+	</select>
+
+	<update id="updateBillWay" parameterType="com.sys.payment.entity.Bill">
+		update bill set Hway = #{Hway} where Bid = #{Bid}
+	</update>
+<!--
+	<update id="">
+	</update>
+
+	<delete id="">
+	</delete> -->
+</mapper>

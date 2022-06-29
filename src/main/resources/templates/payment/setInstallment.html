@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>股份有限公司</title>
+	<!-- Bootstrap -->
+	<link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
+</head>
+
+<body>
+<div th:replace="~{common/header::nav}"></div>
+	<hr>
+	<div class="alert-danger text-center">
+		<P class="card-text">分期付款设置变更</p>
+	</div>
+	<div class="container">
+		<div class="row text-center"> </div>
+		<hr>
+		<div class="row card-header">分期付款设置</div>
+		<div class="row">
+			<div class="col-3 bg-aqua">
+				<p>
+				<ul class="list-inline">
+					<li class="list-inline-item">预计支付总额</li>
+				</ul>
+				</p>
+			</div>
+			<div class="col-4 bg-lemonchiffon">
+				<label th:text="${bill.Vot}"></label>
+			</div>
+			<div class="col-5 bg-lemonchiffon"></div>
+		</div>
+		<br>
+		<form action="confirmInstallment" method="post">
+		<div class="row">
+			<div class="col-3 bg-aqua">
+				<p>
+				<ul class="list-inline">
+					<li class="list-inline-item">支付方式</li>
+					<li class="list-inline-item"><img class="card-img card-img-top" src="images/icon_required.gif"
+							alt="必填"></li>
+				</ul>
+				</p>
+			</div>
+
+			<div class="col-4 bg-lemonchiffon">
+				<div class="custom-control custom-radio custom-control-inline">
+					<input type="radio" class="custom-control-input" id="radio1" name="test" value="3">
+					<label class="custom-control-label" for="radio1">3次付清</label>
+				</div>
+				<div class="custom-control custom-radio custom-control-inline">
+					<input type="radio" class="custom-control-input" id="radio2" name="test" value="6">
+					<label class="custom-control-label" for="radio2">6次付清</label>
+				</div>
+				<div class="custom-control custom-radio custom-control-inline">
+					<input type="radio" class="custom-control-input" id="radio3" name="test" value="12">
+					<label class="custom-control-label" for="radio3">12次付清</label>
+				</div>
+			</div>
+			<div class="col-5 bg-lemonchiffon"></div>
+		</div>
+		<br>
+		<hr>
+		<div class="text-center">
+			<div class="custom-control custom-radio custom-control-inline">
+				<p class="lead"><button type="submit" class="btn btn-primary mb-2" name="subject" th:value="${bill.Bid}">支付方式变更</button> </p>
+			</div>
+		</div>
+		</form>
+		<div class="row">
+			<div class="text-center col-lg-6 offset-lg-3">
+				<p>Copyright &copy; H &middot; All Rights Reserved &middot;</p>
+			</div>
+		</div>
+	</div>
+	</div>
+	<th:block th:replace="~{common/header::scrpit}"></th:block>
+</body>
+
+</html>

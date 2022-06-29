@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- com.dao.UserDao对应Dao接口 -->
+<mapper namespace="com.sys.payment.mapper.UserDao">
+	<!-- 查询全部用户信息 -->
+	<select id="selectUsers"  resultType="com.sys.payment.entity.MyUser" >
+		select * from useri
+	</select>
+	<!-- 根据用户ID查询用户信息 -->
+	<select id="selectUserById" parameterType="java.lang.String" resultType="com.sys.payment.entity.MyUser" >
+		select * from useri where Id = #{id}
+	</select>
+
+<!--
+	<update id="">
+	</update>
+
+	<delete id="">
+	</delete> -->
+</mapper>

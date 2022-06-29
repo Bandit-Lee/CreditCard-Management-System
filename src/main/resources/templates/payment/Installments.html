@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>股份有限公司</title>
+	<!-- Bootstrap -->
+	<link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
+</head>
+
+<body>
+<div th:replace="~{common/header::nav}"></div>
+	<hr>
+	<div class="alert-danger text-center">
+		<P class="card-text">分期付款账单列表</p>
+	</div>
+	<div class="container">
+		<div class="row text-center"> </div>
+		<hr>
+		<div class="row card-header">分期付款账单列表</div>
+		<div class="row">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>请求日期</th>
+						<th>支付额</th>
+						<th>状态</th>
+						<th>分期支付方式</th>
+					</tr>
+				</thead>
+				<tbody>
+					<form action="setinstallment" method="post">
+						<tr th:each="bill:${billlist}">
+							<td th:text="${bill.Time}"></td>
+							<td th:text="${bill.Vot}"></td>
+							<td th:text="${bill.Statue}"></td>
+							<td><span th:text="${bill.Hway}"></span>次付清</td>
+							<td>
+								<button type="submit" class="btn btn-primary mb-2" th:value="${bill.Bid}"
+									name="subject">支付方式变更</button>
+							</td>
+						</tr>
+					</form>
+				</tbody>
+			</table>
+		</div>
+
+		<hr>
+		<div class="text-center">
+			<div class="custom-control custom-radio custom-csontrol-inline">
+				<p class="lead"> <a class="btn btn-danger btn-lg" href="http://localhost:8080" role="button">返回</a> </p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="text-center col-lg-6 offset-lg-3">
+				<p>Copyright &copy; H &middot; All Rights Reserved &middot;</p>
+			</div>
+		</div>
+	</div>
+	</div>
+	<th:block th:replace="~{common/header::scrpit}"></th:block>
+</body>
+
+</html>

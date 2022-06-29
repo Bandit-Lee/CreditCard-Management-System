@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>股份有限公司</title>
+	<!-- Bootstrap -->
+	<link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
+</head>
+
+<body>
+<div th:replace="~{common/header::nav}"></div>
+	<hr>
+	<div>
+
+		<form class="form-inline" action="payments" method="post">
+			<label for="UserId" class="mb-2 mr-sm-2">用户ID:</label>
+			<input type="text" class="form-control mb-2 mr-sm-2" id="UserId" placeholder="Enter UserId" name="Id">
+			<button type="submit" class="btn btn-primary mb-2">支付账单查询</button>
+		</form>
+		<hr>
+		<form class="form-inline" action="yearpayments" method="post">
+			<label for="UserId" class="mb-2 mr-sm-2">用户ID:</label>
+			<input type="text" class="form-control mb-2 mr-sm-2" id="UserId" placeholder="Enter UserId" name="Id">
+			<button type="submit" class="btn btn-primary mb-2">年度账单列表查询</button>
+		</form>
+		<hr>
+		<form class="form-inline" action="installment" method="post">
+			<label for="UserId" class="mb-2 mr-sm-2">用户ID:</label>
+			<input type="text" class="form-control mb-2 mr-sm-2" id="UserId" placeholder="Enter UserId" name="Id">
+			<button type="submit" class="btn btn-primary mb-2">分期付款账单查询</button>
+		</form>
+		<hr>
+	</div>
+	<div class="row">
+		<div class="text-center col-lg-6 offset-lg-3 ">
+			<p>Copyright &copy; H &middot; All Rights Reserved &middot;</p>
+		</div>
+	</div>
+	</div>
+	</div>
+	<th:block th:replace="~{common/header::scrpit}"></th:block>
+</body>
+
+</html>

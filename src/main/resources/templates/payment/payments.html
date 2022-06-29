@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>股份有限公司</title>
+	<!-- Bootstrap -->
+	<link th:href="@{/css/bootstrap-4.0.0.css}" rel="stylesheet">
+</head>
+
+<body>
+<div th:replace="~{common/header::nav}"></div>
+	<hr>
+	<div class="alert-danger text-center">
+		<P class="card-text">支付信息查询</p>
+	</div>
+	<div class="container">
+		<div class="row text-center"> </div>
+		<hr>
+		<div class="row card-header">银行卡信息</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-3 bg-aqua">
+					<p>
+					<ul class="list-inline">
+						<li class="list-inline-item">本人卡号</li>
+					</ul>
+					</p>
+				</div>
+				<div class="col-4 bg-lemonchiffon">
+					<div class="form-group">
+						<label th:text="${user.UCN}"></label>
+					</div>
+				</div>
+				<div class="col-5 bg-lemonchiffon"></div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-3 bg-aqua">
+					<p>
+					<ul class="list-inline">
+						<li class="list-inline-item">家庭卡号</li>
+					</ul>
+					</p>
+				</div>
+				<div class="col-4 bg-lemonchiffon">
+					<div class="form-group">
+						<label th:text="${user.FCN}"></label>
+					</div>
+				</div>
+				<div class="col-5 bg-lemonchiffon"></div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-3 bg-aqua">
+					<p>
+					<ul class="list-inline">
+						<li class="list-inline-item">余额</li>
+					</ul>
+					</p>
+				</div>
+				<div class="col-4 bg-lemonchiffon">
+					<div class="form-group">
+						<label th:text="${user.BN}"></label>
+					</div>
+				</div>
+				<div class="col-5 bg-lemonchiffon"></div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-3 bg-aqua">
+					<p>
+					<ul class="list-inline">
+						<li class="list-inline-item">可用余额
+						</li>
+					</ul>
+					</p>
+				</div>
+				<div class="col-4 bg-lemonchiffon">
+					<div class="form-group">
+						<label th:text= "${user.SBN}"></label>
+					</div>
+				</div>
+				<div class="col-5 bg-lemonchiffon"></div>
+			</div>
+			<br>
+			<br>
+			<div class="row card-header">支付信息查询</div>
+			<div class="row">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>区分</th>
+							<th>交易时间</th>
+							<th>店名</th>
+							<th>交易额</th>
+							<th>分期付款方式</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="bill:${billlist}">
+							<td th:text="${bill.Dist}"></td>
+							<td th:text="${bill.Time}"></td>
+							<td th:text="${bill.Sna}"></td>
+							<td th:text="${bill.Vot}"></td>
+							<td><span th:text="${bill.Hway}"></span>次付清</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<hr>
+			<div class="text-center">
+				<div class="custom-control custom-radio custom-control-inline">
+					<p class="lead"> <a class="btn btn-danger btn-lg" href="http://localhost:8080" role="button">返回</a>
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="text-center col-lg-6 offset-lg-3">
+					<p>Copyright &copy; H &middot; All Rights Reserved &middot;</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<th:block th:replace="~{common/header::scrpit}"></th:block>
+</body>
+
+</html>
